@@ -1,0 +1,60 @@
+
+Активные подключения
+
+  Имя    Локальный адрес        Внешний адрес          Состояние
+  TCP    0.0.0.0:135            genuine:0              LISTENING
+  RpcSs
+ [svchost.exe]
+  TCP    0.0.0.0:445            genuine:0              LISTENING
+ Не удается получить сведения о владельце
+  TCP    0.0.0.0:2343           genuine:0              LISTENING
+ [lkads.exe]
+  TCP    0.0.0.0:5040           genuine:0              LISTENING
+  CDPSvc
+ [svchost.exe]
+  TCP    0.0.0.0:23130          genuine:0              LISTENING
+ [Wacom_Tablet.exe]
+  TCP    0.0.0.0:23132          genuine:0              LISTENING
+ [Wacom_Tablet.exe]
+  TCP    0.0.0.0:49664          genuine:0              LISTENING
+ [lsass.exe]
+  TCP    0.0.0.0:49665          genuine:0              LISTENING
+ Не удается получить сведения о владельце
+  TCP    0.0.0.0:49666          genuine:0              LISTENING
+  EventLog
+ [svchost.exe]
+  TCP    0.0.0.0:49667          genuine:0              LISTENING
+  Schedule
+ [svchost.exe]
+  TCP    0.0.0.0:49668          genuine:0              LISTENING
+ [spoolsv.exe]
+  TCP    0.0.0.0:49675          genuine:0              LISTENING
+ Не удается получить сведения о владельце
+  TCP    0.0.0.0:52290          genuine:0              LISTENING
+ [Spotify.exe]
+  TCP    0.0.0.0:57621          genuine:0              LISTENING
+ [Spotify.exe]
+  TCP    0.0.0.0:59110          genuine:0              LISTENING
+ [lktsrv.exe]
+  TCP    0.0.0.0:59111          genuine:0              LISTENING
+ [nidmsrv.exe]
+  TCP    127.0.0.1:7768         genuine:0              LISTENING
+ [Spotify.exe]
+  TCP    127.0.0.1:52241        WIN-0RRORC9T71J:52242  ESTABLISHED
+ [firefox.exe]
+  TCP    127.0.0.1:52242        WIN-0RRORC9T71J:52241  ESTABLISHED
+ [firefox.exe]
+  TCP    127.0.0.1:52244        WIN-0RRORC9T71J:52245  ESTABLISHED
+ [firefox.exe]
+  TCP    127.0.0.1:52245        WIN-0RRORC9T71J:52244  ESTABLISHED
+ [firefox.exe]
+  TCP    192.168.56.1:139       genuine:0              LISTENING
+ Не удается получить сведения о владельце
+  TCP    192.168.100.3:139      genuine:0              LISTENING
+ Не удается получить сведения о владельце
+  TCP    192.168.100.3:51897    41:https               ESTABLISHED
+ [Spotify.exe]
+  TCP    192.168.100.3:52282    149.154.167.51:https   ESTABLISHED
+ [Telegram.exe]
+  TCP    192.168.100.3:52291    9:4070                 ESTABLISHED
+ [Spotify.exe]

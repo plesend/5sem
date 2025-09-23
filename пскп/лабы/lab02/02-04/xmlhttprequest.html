@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="context"></div>
+    <script>
+        const url = "http://localhost:5000/api/name";
+        var div = document.getElementById("context");
+        var xml = new XMLHttpRequest();
+
+        xml.open("GET", url, true);
+        xml.onreadystatechange = function() {
+            if(xml.status == 200) {
+                div.innerText = xml.responseText;
+            }
+        }
+
+        xml.send();
+
+    </script>
+</body>
+</html>
