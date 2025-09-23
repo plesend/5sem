@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="context"></div>
+    <script>
+        fetch('/api/name', {method: 'GET'})
+            .then(res => {
+                if(!res.ok) {
+                    throw new Error("проверка запроса, потому что fetch коварный, ему все успешно" + res.status);
+                }
+                return res.text();
+            })
+            .then(text => {
+                document.getElementById("context").textContent = text;
+            });
+    </script>
+</body>
+</html>

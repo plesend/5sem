@@ -1,0 +1,14 @@
+--1
+select name, open_mode, restricted, con_id from v$pdbs;
+
+--2
+select instance_name, host_name, status, version from v$instance;
+
+--3
+select comp_id, comp_name, version, status from dba_registry;
+
+--5
+select * from DBA_PDBS;
+
+--6
+drop pluggable database PDB_A including datafiles;
