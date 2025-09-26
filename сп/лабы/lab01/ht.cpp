@@ -2,7 +2,8 @@
 #include <cstring>
 #include <ctime>
 #include "ОССП_Лабораторная_работа_10_HT.h"
-
+#pragma disable warning(4996)
+//как генерируется хеш, как решать коллизии, где генерируется хеш
 namespace HT {
 
 	static void setError(HTHANDLE* ht, const char* msg)
@@ -33,7 +34,7 @@ namespace HT {
 		this->MaxPayloadLength = MaxPayloadLength;
 		this->FileName;
 
-		strncpy(this->FileName, FileName, sizeof(this->FileName));
+		strncpy_s(this->FileName, FileName, sizeof(this->FileName));
 		this->FileName[sizeof(this->FileName) - 1] = '\0';
 
 		File = NULL;
@@ -120,7 +121,7 @@ namespace HT {
 	HTHANDLE* Open(const char FileName[512]) {
 		HTHANDLE* ht = new HTHANDLE();
 
-		strncpy(ht->FileName, FileName, sizeof(ht->FileName));
+		strncpy_s(ht->FileName, FileName, sizeof(ht->FileName));
 		ht->FileName[sizeof(ht->FileName) - 1] = '\0';
 
 		ht->File = CreateFileA(FileName, GENERIC_READ | GENERIC_WRITE,
@@ -183,27 +184,154 @@ namespace HT {
 
 		if (hthandle->Addr != nullptr) UnmapViewOfFile(hthandle->Addr);
 
-		if (hthandle->FileMapping != nullptr) CloseHandle(hthandle->Addr);
+		if (hthandle->FileMapping != nullptr) CloseHandle(hthandle->FileMapping);
 
-		if (hthandle->File != INVALID_HANDLE_VALUE) CloseHandle(hthandle->Addr);
+		if (hthandle->File != INVALID_HANDLE_VALUE) CloseHandle(hthandle->File);
 
 		delete hthandle;
 
 		return res;
 	}
 
-	BOOL Insert(const HTHANDLE* hthandle,            // управление HT
+	BOOL Insert(const HTHANDLE* hthandle,            
 		const Element* element) {
 		if (hthandle == nullptr || hthandle->Addr == nullptr || 
 			element == nullptr || element->key == nullptr) return FALSE;
 
 		Element* existing = Get(hthandle, element);
-		if (existing == nullptr) {
+		if (existing != nullptr) {
 			delete existing;
 			strncpy_s(const_cast<HTHANDLE*>(hthandle)->LastErrorMessage,
 				"Insert: key length exceeds MaxKeyLength", sizeof(hthandle->LastErrorMessage));
 			return FALSE;
 		}
 
+		char* dataStart = static_cast<char*>(hthandle->Addr) + sizeof(HTHANDLE);
+
+		memcpy(dataStart, element, sizeof(Element));
+
+		time_t currentTime = time(nullptr);
+		if (difftime(currentTime, hthandle->lastsnaptime) >= hthandle->SecSnapshotInterval) 
+			Snap(hthandle);
+
+		return TRUE;
 	}
+
+	BOOL Delete(const HTHANDLE* hthandle,            
+		const Element* element) {
+		if (hthandle == nullptr || hthandle->Addr == nullptr ||
+			element == nullptr || element->key == nullptr) return FALSE;
+
+		Element* existing = Get(hthandle, element);
+		if (existing == nullptr) {
+			delete existing;
+			strncpy_s(const_cast<HTHANDLE*>(hthandle)->LastErrorMessage,
+				"Delete: key not found", sizeof(hthandle->LastErrorMessage));
+			return FALSE;
+		}
+
+		char* dataStart = static_cast<char*>(hthandle->Addr) + sizeof(HTHANDLE);
+		memset(dataStart, 0, sizeof(Element));
+
+		delete existing;
+
+		time_t currentTime = time(nullptr);
+		if (difftime(currentTime, hthandle->lastsnaptime) >= hthandle->SecSnapshotInterval)
+			Snap(hthandle);
+
+		return TRUE;
+	}
+
+	Element* Get(const HTHANDLE* hthandle, const Element* element) {
+		if (!hthandle || !hthandle->Addr || !element || !element->key)
+			return nullptr;
+
+		char* dataStart = static_cast<char*>(hthandle->Addr) + sizeof(HTHANDLE);
+		Element* storedElement = reinterpret_cast<Element*>(dataStart);
+
+		if (storedElement->key &&
+			storedElement->keylength == element->keylength &&
+			memcmp(storedElement->key, element->key, element->keylength) == 0) {
+
+			Element* result = new Element();
+			result->key = storedElement->key;
+			result->keylength = storedElement->keylength;
+			result->payload = storedElement->payload;
+			result->payloadlength = storedElement->payloadlength;
+
+			return result;
+		}
+
+		return nullptr;
+	}
+
+	BOOL Update(const HTHANDLE* hthandle,            // управление HT
+		const Element* oldelement,          // старый элемент (ключ, размер ключа)
+		const void* newpayload,          // новые данные  
+		int newpayloadlength) {
+
+		if (hthandle == nullptr || oldelement == nullptr || 
+			newpayload == nullptr) return FALSE;
+
+		Element* existing = Get(hthandle, oldelement);
+		if (existing == nullptr) {
+			strncpy_s(const_cast<HTHANDLE*>(hthandle)->LastErrorMessage,
+				"Update: key not found", sizeof(hthandle->LastErrorMessage));
+			return FALSE;
+		}
+
+		char* dataStart = static_cast<char*>(hthandle->Addr) + sizeof(HTHANDLE);
+		Element* storedElement = reinterpret_cast<Element*>(dataStart);
+
+		storedElement->payload = newpayload;
+		storedElement->payloadlength = newpayloadlength;
+
+		delete existing;
+
+		time_t currentTime = time(nullptr);
+		if (difftime(currentTime, hthandle->lastsnaptime) >= hthandle->SecSnapshotInterval) {
+			Snap(hthandle);
+		}
+
+		return TRUE;
+	}
+
+	char* GetLastError(HTHANDLE* ht) {
+		if (ht == nullptr) {
+			char buffer[] = "no HTHANDLE";
+			return buffer;
+		}
+		return ht->LastErrorMessage;
+	}
+
+	void print(const Element* element)
+	{
+		if (element == nullptr) {
+			std::cout << "[Print] Element not found." << std::endl;
+			return;
+		}
+
+		std::cout << "[Print] Key: ";
+		if (element->key != nullptr && element->keylength > 0) {
+			for (int i = 0; i < element->keylength; i++) {
+				std::cout << static_cast<const char*>(element->key)[i];
+			}
+		}
+		else {
+			std::cout << "<empty>";
+		}
+		std::cout << std::endl;
+
+		std::cout << "[Print] Payload: ";
+		if (element->payload != nullptr && element->payloadlength > 0) {
+			for (int i = 0; i < element->payloadlength; i++) {
+				std::cout << static_cast<const char*>(element->payload)[i];
+			}
+		}
+		else {
+			std::cout << "<empty>";
+		}
+		std::cout << std::endl;
+	}
+
 }
