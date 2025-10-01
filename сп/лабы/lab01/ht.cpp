@@ -206,7 +206,7 @@ namespace HT {
 			return FALSE;
 		}
 
-		char* dataStart = static_cast<char*>(hthandle->Addr) + sizeof(HTHANDLE);
+		char* dataStart = static_cast<char*>(hthandle->Addr) + sizeof(HTHANDLE);//указатель на конец памяті табліцы
 
 		memcpy(dataStart, element, sizeof(Element));
 

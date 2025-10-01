@@ -8,19 +8,26 @@ const server = http.createServer(function(req, res) {
 
         fs.access(filepath, fs.constants.R_OK, err => {
             if(err) {
-                res.setHeader("Content-Type", "text/html; charset:utf-8;");
+                res.setHeader("Content-Type", "text/html; charset=utf-8;");
+                res.setHeader("Access-Control-Allow-Origin", "*");
                 res.statusCode = 404;
                 res.end("no file like this");
             }
             else {
-                res.setHeader("Content-Type", "text/html; charset:utf-8;");
+                res.setHeader("Content-Type", "text/html; charset=utf-8;");
+                res.setHeader("Access-Control-Allow-Origin", "*");
                 res.statusCode = 200;
                 fs.createReadStream(__dirname + "\\jquery.html").pipe(res);
             }
         });
     }
     if(req.url == "/api/name" && req.method == "GET") {
-        res.setHeader("Content-Type", "text/html; charset:utf-8;");
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Content-Type", "text/html; charset=utf-8;");
         res.end("Фамилия Имя Отчество");
     }
+});
+
+server.listen(5000, function() {
+    console.log("сервер запущен");
 });

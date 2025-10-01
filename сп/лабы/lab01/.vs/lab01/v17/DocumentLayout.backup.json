@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\lab01\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{7D5FAA50-2876-48C0-B537-9E7905F44C6D}|lab01.vcxproj|D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\lab01\\ht.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D5FAA50-2876-48C0-B537-9E7905F44C6D}|lab01.vcxproj|solutionrelative:ht.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D5FAA50-2876-48C0-B537-9E7905F44C6D}|lab01.vcxproj|D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\lab01\\os10_01.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7D5FAA50-2876-48C0-B537-9E7905F44C6D}|lab01.vcxproj|solutionrelative:os10_01.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D536AF51-7C1D-421D-9243-B6AADE0C6BA2}|..\\OS10_TEST\\OS10_TEST.vcxproj|D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\OS10_TEST\\os10_test.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
@@ -19,14 +27,6 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{BE9CF227-9F59-4728-93BB-B22079CDCDAC}|..\\OS10_02\\OS10_02.vcxproj|D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\OS10_02\\OS10_02.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7D5FAA50-2876-48C0-B537-9E7905F44C6D}|lab01.vcxproj|D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\lab01\\os10_01.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{7D5FAA50-2876-48C0-B537-9E7905F44C6D}|lab01.vcxproj|solutionrelative:os10_01.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7D5FAA50-2876-48C0-B537-9E7905F44C6D}|lab01.vcxproj|D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\lab01\\ht.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{7D5FAA50-2876-48C0-B537-9E7905F44C6D}|lab01.vcxproj|solutionrelative:ht.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6834B210-D3B0-4685-A2AD-B698150DAD18}|..\\OS10_HTAPI\\OS10_HTAPI.vcxproj|D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\OS10_HTAPI\\pch.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
@@ -49,24 +49,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 561,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "test.cpp",
-              "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\OS10_TEST\\test.cpp",
-              "RelativeDocumentMoniker": "..\\OS10_TEST\\test.cpp",
-              "ToolTip": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\OS10_TEST\\test.cpp",
-              "RelativeToolTip": "..\\OS10_TEST\\test.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-09-26T18:39:35.636Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "test.h",
               "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\OS10_TEST\\test.h",
               "RelativeDocumentMoniker": "..\\OS10_TEST\\test.h",
@@ -74,25 +61,24 @@
               "RelativeToolTip": "..\\OS10_TEST\\test.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-09-26T18:33:31.466Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-26T18:33:31.466Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "os10_test.cpp",
               "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\OS10_TEST\\os10_test.cpp",
               "RelativeDocumentMoniker": "..\\OS10_TEST\\os10_test.cpp",
               "ToolTip": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\OS10_TEST\\os10_test.cpp",
               "RelativeToolTip": "..\\OS10_TEST\\os10_test.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABRAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-09-26T18:33:15.335Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "os10_03.cpp",
               "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\OS10_03\\os10_03.cpp",
               "RelativeDocumentMoniker": "..\\OS10_03\\os10_03.cpp",
@@ -100,12 +86,11 @@
               "RelativeToolTip": "..\\OS10_03\\os10_03.cpp",
               "ViewState": "AgIAAFoAAAAAAAAAAAAAAG4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-09-26T18:19:11.483Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-26T18:19:11.483Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "OS10_02.cpp",
               "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\OS10_02\\OS10_02.cpp",
               "RelativeDocumentMoniker": "..\\OS10_02\\OS10_02.cpp",
@@ -113,8 +98,7 @@
               "RelativeToolTip": "..\\OS10_02\\OS10_02.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-09-26T18:13:49.804Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-26T18:13:49.804Z"
             },
             {
               "$type": "Document",
@@ -126,12 +110,11 @@
               "RelativeToolTip": "..\\OS10_HTAPI\\framework.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-09-26T17:46:19.615Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-26T17:46:19.615Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "\u041E\u0421\u0421\u041F_\u041B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u0430\u044F_\u0440\u0430\u0431\u043E\u0442\u0430_10_HT.h",
               "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\OS10_HTAPI\\\u041E\u0421\u0421\u041F_\u041B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u0430\u044F_\u0440\u0430\u0431\u043E\u0442\u0430_10_HT.h",
               "RelativeDocumentMoniker": "..\\OS10_HTAPI\\\u041E\u0421\u0421\u041F_\u041B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u0430\u044F_\u0440\u0430\u0431\u043E\u0442\u0430_10_HT.h",
@@ -139,8 +122,7 @@
               "RelativeToolTip": "..\\OS10_HTAPI\\\u041E\u0421\u0421\u041F_\u041B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u0430\u044F_\u0440\u0430\u0431\u043E\u0442\u0430_10_HT.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-09-26T17:45:58.266Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-26T17:45:58.266Z"
             },
             {
               "$type": "Document",
@@ -152,8 +134,7 @@
               "RelativeToolTip": "..\\OS10_HTAPI\\pch.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-09-26T17:39:14.96Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-26T17:39:14.96Z"
             },
             {
               "$type": "Document",
@@ -165,8 +146,45 @@
               "RelativeToolTip": "..\\OS10_HTAPI\\OS10_HTAPI.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-09-26T17:38:51.22Z",
+              "WhenOpened": "2025-09-26T17:38:51.22Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ht.cpp",
+              "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\lab01\\ht.cpp",
+              "RelativeDocumentMoniker": "ht.cpp",
+              "ToolTip": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\lab01\\ht.cpp",
+              "RelativeToolTip": "ht.cpp",
+              "ViewState": "AgIAAH4AAAAAAAAAAAAAAOoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-09-20T06:52:56.569Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "os10_01.cpp",
+              "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\lab01\\os10_01.cpp",
+              "RelativeDocumentMoniker": "os10_01.cpp",
+              "ToolTip": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\lab01\\os10_01.cpp",
+              "RelativeToolTip": "os10_01.cpp",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAADAAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-09-19T18:14:49.121Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "test.cpp",
+              "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\OS10_TEST\\test.cpp",
+              "RelativeDocumentMoniker": "..\\OS10_TEST\\test.cpp",
+              "ToolTip": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\OS10_TEST\\test.cpp",
+              "RelativeToolTip": "..\\OS10_TEST\\test.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-09-26T18:39:35.636Z"
             },
             {
               "$type": "Document",
@@ -178,34 +196,7 @@
               "RelativeToolTip": "\u041E\u0421\u0421\u041F_\u041B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u0430\u044F_\u0440\u0430\u0431\u043E\u0442\u0430_10_HT.h",
               "ViewState": "AgIAAFoAAAAAAAAAAAAEwGkAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-09-20T07:40:58.084Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "os10_01.cpp",
-              "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\lab01\\os10_01.cpp",
-              "RelativeDocumentMoniker": "os10_01.cpp",
-              "ToolTip": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\lab01\\os10_01.cpp",
-              "RelativeToolTip": "os10_01.cpp",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAQwFMAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-09-19T18:14:49.121Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ht.cpp",
-              "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\lab01\\ht.cpp",
-              "RelativeDocumentMoniker": "ht.cpp",
-              "ToolTip": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0441\u043F\\\u043B\u0430\u0431\u044B\\lab01\\ht.cpp",
-              "RelativeToolTip": "ht.cpp",
-              "ViewState": "AgIAADQBAAAAAAAAAAAmwEUBAABCAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-09-20T06:52:56.569Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-20T07:40:58.084Z"
             }
           ]
         }

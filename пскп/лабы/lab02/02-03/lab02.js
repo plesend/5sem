@@ -4,7 +4,7 @@ const server = http.createServer(function(req, res) {
 
     res.setHeader("Content-Type", "text/plain; charset=utf-8");  
 
-    if(req.method = "GET" || req.url == "/api/name") { 
+    if(req.method = "GET" && req.url == "/api/name") { 
         res.end("Фамилия Имя Отчество");
     }
     else {

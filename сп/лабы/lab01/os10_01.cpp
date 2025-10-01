@@ -43,10 +43,23 @@ int main() {
             cout << "Get: success" << endl;
         else throw "Get: error";
 
+        if (Insert(ht, new Element("key223", 7, "kakish", 8)))
+            cout << "Insert:success" << endl;
+        else throw "Insert:error";
         print(hte1);
+
+        Element* hte2 = Get(ht, new Element("key223", 7));
+        if (hte2)
+            cout << "Get 223 before delete: success" << endl;
+        else throw "Get 223: error";
 
         if (Delete(ht, hte1)) cout << "Delete: success\n";
         else throw "Delete: error";
+
+        hte2 = Get(ht, new Element("key223", 7));
+        if (hte2)
+            cout << "Get 223 after: success" << endl;
+        else throw "Get 223: error";
 
         if (Close(ht))
             cout << "Close: success\n";

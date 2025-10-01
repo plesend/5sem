@@ -9,7 +9,7 @@ const server = http.createServer(function(req, res) {
         fs.access(filepath, fs.constants.R_OK, err => {
                 res.setHeader("Content-Type", "text/html; charset=utf-8");
             if(err){
-                res.end("oshibka");
+                res.end("ошибка");
             }
             else {
                 fs.createReadStream(__dirname + '\\xmlhttprequest.html').pipe(res);
@@ -17,6 +17,7 @@ const server = http.createServer(function(req, res) {
         })
     }
     if(req.url == "/api/name") {
+        res.setHeader("Content-Type", "text/html; charset=utf-8");
         res.end("Фамилия Имя Отчество");
     }
 });

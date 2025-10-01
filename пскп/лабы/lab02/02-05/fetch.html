@@ -11,7 +11,7 @@
         fetch('/api/name', {method: 'GET'})
             .then(res => {
                 if(!res.ok) {
-                    throw new Error("проверка запроса, потому что fetch коварный, ему все успешно" + res.status);
+                    throw new Error("проверка запроса" + res.status);
                 }
                 return res.text();
             })
