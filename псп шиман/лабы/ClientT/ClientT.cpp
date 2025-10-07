@@ -86,6 +86,13 @@ int main() {
 
 		cout << "Socket created\n";
 
+		SOCKADDR_IN serv;
+		serv.sin_family = AF_INET;
+		serv.sin_port = htons(2000);
+		serv.sin_addr.s_addr = inet_addr("ipadress");
+		if((connect(cC, (sockaddr*)&serv, sizeof(serv))) == SOCKET_ERROR)
+			throw SetErrorMsgText("connect:", WSAGetLastError());
+
 		if (closesocket(sS) == SOCKET_ERROR)
 			throw SetErrorMsgText("closesocket:", WSAGetLastError());
 

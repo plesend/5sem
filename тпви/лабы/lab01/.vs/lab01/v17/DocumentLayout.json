@@ -3,6 +3,9 @@
   "WorkspaceRootPath": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\lab01\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C1A9CE8B-51BB-45C2-A751-2609F22902F5}|..\\ResultsCollectionLib\\ResultsCollectionLib.csproj|d:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\resultscollectionlib\\resultscollectionlib.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C1A9CE8B-51BB-45C2-A751-2609F22902F5}|..\\ResultsCollectionLib\\ResultsCollectionLib.csproj|d:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\resultscollectionlib\\results.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -13,7 +16,12 @@
       "RelativeMoniker": "D:0:0:{C2CB751D-3439-4EDD-A8DB-EAC6F7949C57}|lab01.csproj|solutionrelative:controllers\\resultcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C1A9CE8B-51BB-45C2-A751-2609F22902F5}|..\\ResultsCollectionLib\\ResultsCollectionLib.csproj|d:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\resultscollectionlib\\resultscollectionlib.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{C2CB751D-3439-4EDD-A8DB-EAC6F7949C57}|lab01.csproj|d:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\lab01\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C2CB751D-3439-4EDD-A8DB-EAC6F7949C57}|lab01.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C2CB751D-3439-4EDD-A8DB-EAC6F7949C57}|lab01.csproj|d:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\lab01\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C2CB751D-3439-4EDD-A8DB-EAC6F7949C57}|lab01.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C2CB751D-3439-4EDD-A8DB-EAC6F7949C57}|lab01.csproj|d:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\lab01\\models\\result.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -31,41 +39,91 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Result.cs",
-              "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\ResultsCollectionLib\\Result.cs",
-              "RelativeDocumentMoniker": "..\\ResultsCollectionLib\\Result.cs",
-              "ToolTip": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\ResultsCollectionLib\\Result.cs",
-              "RelativeToolTip": "..\\ResultsCollectionLib\\Result.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-01T16:11:58.88Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
+              "Title": "ResultController.cs",
+              "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\lab01\\Controllers\\ResultController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ResultController.cs",
+              "ToolTip": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\lab01\\Controllers\\ResultController.cs",
+              "RelativeToolTip": "Controllers\\ResultController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-01T15:56:10.5Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Result.cs",
+              "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\ResultsCollectionLib\\Result.cs",
+              "RelativeDocumentMoniker": "..\\ResultsCollectionLib\\Result.cs",
+              "ToolTip": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\ResultsCollectionLib\\Result.cs",
+              "RelativeToolTip": "..\\ResultsCollectionLib\\Result.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-01T16:11:58.88Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Results.cs",
               "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\ResultsCollectionLib\\Results.cs",
               "RelativeDocumentMoniker": "..\\ResultsCollectionLib\\Results.cs",
               "ToolTip": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\ResultsCollectionLib\\Results.cs",
               "RelativeToolTip": "..\\ResultsCollectionLib\\Results.cs",
-              "ViewState": "AgIAAEMAAAAAAAAAAAAmwFEAAAAPAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-01T16:05:53.504Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ResultsCollectionLib.csproj",
+              "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\ResultsCollectionLib\\ResultsCollectionLib.csproj",
+              "RelativeDocumentMoniker": "..\\ResultsCollectionLib\\ResultsCollectionLib.csproj",
+              "ToolTip": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\ResultsCollectionLib\\ResultsCollectionLib.csproj",
+              "RelativeToolTip": "..\\ResultsCollectionLib\\ResultsCollectionLib.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-01T16:06:17.264Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\lab01\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
+              "ToolTip": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\lab01\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-02T07:22:04.646Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\lab01\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\lab01\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-02T06:58:31.945Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "ErrorViewModel.cs",
               "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\lab01\\Models\\ErrorViewModel.cs",
               "RelativeDocumentMoniker": "Models\\ErrorViewModel.cs",
@@ -73,25 +131,11 @@
               "RelativeToolTip": "Models\\ErrorViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-01T16:11:00.296Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-01T16:11:00.296Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ResultController.cs",
-              "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\lab01\\Controllers\\ResultController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ResultController.cs",
-              "ToolTip": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\lab01\\Controllers\\ResultController.cs",
-              "RelativeToolTip": "Controllers\\ResultController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-01T15:56:10.5Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Result.cs",
               "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\lab01\\Models\\Result.cs",
               "RelativeDocumentMoniker": "Models\\Result.cs",
@@ -99,21 +143,7 @@
               "RelativeToolTip": "Models\\Result.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-01T15:23:34.05Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ResultsCollectionLib",
-              "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\ResultsCollectionLib\\ResultsCollectionLib.csproj",
-              "RelativeDocumentMoniker": "..\\ResultsCollectionLib\\ResultsCollectionLib.csproj",
-              "ToolTip": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u0442\u043F\u0432\u0438\\\u043B\u0430\u0431\u044B\\ResultsCollectionLib\\ResultsCollectionLib.csproj",
-              "RelativeToolTip": "..\\ResultsCollectionLib\\ResultsCollectionLib.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-10-01T16:06:17.264Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-01T15:23:34.05Z"
             }
           ]
         }

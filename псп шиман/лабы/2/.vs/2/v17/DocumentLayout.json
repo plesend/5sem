@@ -31,17 +31,11 @@
               "RelativeDocumentMoniker": "..\\ClientT\\ClientT.cpp",
               "ToolTip": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u043F\u0441\u043F \u0448\u0438\u043C\u0430\u043D\\\u043B\u0430\u0431\u044B\\ClientT\\ClientT.cpp",
               "RelativeToolTip": "..\\ClientT\\ClientT.cpp",
-              "ViewState": "AgIAAEkAAAAAAAAAAAAswF0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEkAAAAAAAAAAAAswFAAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-09-28T15:47:58.334Z",
               "EditorCaption": ""
-            }
-          ]
-        },
-        {
-          "DockedWidth": 561,
-          "SelectedChildIndex": 0,
-          "Children": [
+            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
@@ -50,10 +44,9 @@
               "RelativeDocumentMoniker": "ServerT.cpp",
               "ToolTip": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u043F\u0441\u043F \u0448\u0438\u043C\u0430\u043D\\\u043B\u0430\u0431\u044B\\2\\ServerT.cpp",
               "RelativeToolTip": "ServerT.cpp",
-              "ViewState": "AgIAAGMAAAAAAAAAAAAAAG8AAAACAAAAAAAAAA==",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAADsAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-09-28T13:03:20.653Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-28T13:03:20.653Z"
             }
           ]
         }

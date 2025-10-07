@@ -1,6 +1,7 @@
-﻿using System.Linq;
+﻿using Newtonsoft.Json;
+using System.Linq;
+using System.Threading;
 using System.Xml.Linq;
-using Newtonsoft.Json;
 
 namespace ResultsCollectionLib
 {
@@ -9,6 +10,7 @@ namespace ResultsCollectionLib
         private string _jsonPath;
         private List<Result> _results = new List<Result>();
         private int _maxKey = 1;
+        private readonly object _lock = new(); 
 
         public Results(string jsonPath)
         {
@@ -36,47 +38,56 @@ namespace ResultsCollectionLib
         }
         public void AddResult(string value)
         {
-            _results.Add(new Result { Id = _maxKey++, Value = value });
-            IsSerialized();
+            lock (_lock)
+            {
+                _results.Add(new Result { Id = _maxKey++, Value = value });
+                IsSerialized(); 
+            }
         }
+
         public void ChangeResultById(int id, string value)
         {
-            Result element = GetResultById(id);
-            if (element == null)
+            lock (_lock)
             {
-                Console.WriteLine("There is no such an element");
+                var element = GetResultById(id);
+                if (element == null)
+                {
+                    Console.WriteLine("There is no such an element");
+                }
+                else
+                {
+                    element.Value = value;
+                    IsSerialized(); 
+                }
             }
-            else
-            {
-                element.Value = value;
-            }
-            IsSerialized();
         }
+
         public void DeleteResult(int id)
         {
-            Result result = GetResultById(id);
-            if (result == null)
+            lock (_lock)
             {
-                Console.WriteLine("There is no such an element");
+                var result = GetResultById(id);
+                if (result == null)
+                {
+                    Console.WriteLine("There is no such an element");
+                }
+                else
+                {
+                    _results.Remove(result);
+                    IsSerialized(); 
+                }
             }
-            else
-            {
-                _results.Remove(result);
-            }
-            IsSerialized();
         }
+
         private void IsSerialized()
         {
             bool success = Serialize();
             if (!success)
-            {
                 Console.WriteLine("Not done");
-            }
             else
-            {
                 Console.WriteLine("Done");
-            }
         }
+
         private bool Serialize()
         {
             try
@@ -87,9 +98,10 @@ namespace ResultsCollectionLib
             }
             catch
             {
-                return false; 
+                return false;
             }
         }
+
 
     }
 }
