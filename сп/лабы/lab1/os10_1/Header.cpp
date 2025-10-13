@@ -1,5 +1,6 @@
 #include "Header.h"
 #include <iostream>
+#include <future>
 #include <Windows.h>
 #include <cstring>
 #include <thread>
@@ -53,7 +54,6 @@ namespace HT
         return true;
     }
 
-    std::mutex mutex1;
     HTHANDLE::HTHANDLE() :
         Capacity(0),
         SecSnapshotInterval(0),
@@ -100,6 +100,7 @@ namespace HT
         payloadlength(newpayloadlength)
     {}
 
+    std::mutex mutex1;
     HTHANDLE* Create(int Capacity, int SecSnapshotInterval, int MaxKeyLength, int MaxPayloadLength, const char FileName[512], int elementCount)
     {
         lock_guard<mutex>lock(mutex1);
@@ -199,66 +200,72 @@ namespace HT
         ht->DataAddr = (BYTE*)ht->Addr + HEADERSIZE;
         return ht;
     }
-    BOOL Snap(HTHANDLE* hthandle) //асинхронные снапшоты
+
+    BOOL Snap(HTHANDLE* hthandle)
     {
         if (hthandle == NULL)
         {
-            cout << "Snap: hthandle is null\n";
+            std::cout << "SnapAsync: hthandle is null\n";
             return FALSE;
         }
 
-        std::lock_guard<std::mutex> lock(mutex1);
+        
+        std::async(std::launch::async, [hthandle]() { //асинхронные снепшеты
+            std::lock_guard<std::mutex> lock(mutex1);
 
-        hthandle->lastsnaptime = time(0);
+            hthandle->lastsnaptime = time(0);
 
-        auto now = std::chrono::system_clock::now();
-        std::time_t now_c = std::chrono::system_clock::to_time_t(now);
-        std::tm local_tm;
-        localtime_s(&local_tm, &now_c);
+            auto now = std::chrono::system_clock::now();
+            std::time_t now_c = std::chrono::system_clock::to_time_t(now);
+            std::tm local_tm;
+            localtime_s(&local_tm, &now_c);
 
-        std::ostringstream filenameStream;
-        filenameStream << "snapshot_";
-        filenameStream << std::put_time(&local_tm, "%Y-%m-%d_%H-%M-%S");
-        filenameStream << ".htSNAP";
-        std::string filename = filenameStream.str();
+            std::ostringstream filenameStream;
+            filenameStream << "snapshot_"
+                << std::put_time(&local_tm, "%Y-%m-%d_%H-%M-%S")
+                << ".htSNAP";
+            std::string filename = filenameStream.str();
 
-        HANDLE snapshot = CreateFileA(
-            filename.c_str(),
-            GENERIC_WRITE,
-            0,
-            NULL,
-            CREATE_ALWAYS,
-            FILE_ATTRIBUTE_NORMAL,
-            NULL);
+            HANDLE snapshot = CreateFileA(
+                filename.c_str(),
+                GENERIC_WRITE,
+                0,
+                NULL,
+                CREATE_ALWAYS,
+                FILE_ATTRIBUTE_NORMAL,
+                NULL);
 
-        if (snapshot == INVALID_HANDLE_VALUE)
-        {
-            cout << "\nSnap: CreateFileA error, code: " << GetLastError() << "\n";
-            return FALSE;
-        }
+            if (snapshot == INVALID_HANDLE_VALUE)
+            {
+                std::cout << "\nSnapAsync: CreateFileA error, code: " << GetLastError() << "\n";
+                return;
+            }
 
-        int slotSize = 1 + hthandle->MaxKeyLength + hthandle->MaxPayloadLength;
+            int slotSize = 1 + hthandle->MaxKeyLength + hthandle->MaxPayloadLength;
+            int totalSize = hthandle->Capacity * slotSize + HEADERSIZE;
 
-        int totalSize = hthandle->Capacity * slotSize + HEADERSIZE;
+            DWORD writtenBytesAmount = 0;
+            BOOL writeResult = WriteFile(
+                snapshot,
+                hthandle->Addr,
+                (DWORD)totalSize,
+                &writtenBytesAmount,
+                NULL);
 
-        DWORD writtenBytesAmount = 0;
-        BOOL writeResult = WriteFile(
-            snapshot,
-            hthandle->Addr,
-            (DWORD)totalSize,
-            &writtenBytesAmount,
-            NULL);
+            CloseHandle(snapshot);
 
-        CloseHandle(snapshot);
+            if (!writeResult || writtenBytesAmount != (DWORD)totalSize)
+            {
+                std::cout << "\nSnapAsync: write ERROR. Written bytes: "
+                    << writtenBytesAmount << ", expected: " << totalSize << "\n";
+                return;
+            }
 
-        if (!writeResult || writtenBytesAmount != (DWORD)totalSize)
-        {
-            cout << "\nSnap: write ERROR. Written bytes: " << writtenBytesAmount << ", expected: " << totalSize << "\n";
-            return FALSE;
-        }
+            std::cout << "\nSnapshot created: " << filename
+                << " (" << writtenBytesAmount << " bytes)\n";
+            });
 
-        cout << "\nSnapshot created: " << filename << ", size: " << writtenBytesAmount << " bytes\n";
-
+        std::cout << "Snapshot started asynchronously...\n";
         return TRUE;
     }
     BOOL Close(HTHANDLE* hthandle)

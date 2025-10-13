@@ -1,0 +1,105 @@
+cd C:/Users/user-748c2f75/os2 & type > students.txt & find "Ivanov" students.txt & echo Shilov 4>>students.txt & echo Smelov 5>>students.txt & sort students.txt & cd .. & systeminfo > tmp.txt & find "BIOS Version" tmp.txt & del tmp.txt
+
+6 батник
+
+@echo off
+echo Имя пользователя: %USERNAME%
+echo Имя компьютера: %COMPUTERNAME%
+echo Текущая дата: %DATE%
+echo Текущее время: %TIME%
+pause
+
+7 батник
+
+@echo off
+setlocal
+
+echo File name: %~nx0
+echo Full path: %~f0
+echo Last modified: %~t0
+
+pause
+
+
+8 батник
+
+@echo off
+echo All parameters: %*
+echo 1st parameter: %1
+echo 2nd parameter: %2
+echo 3rd parameter: %3
+echo 4th parameter: %4
+pause
+
+9 батник
+
+@echo off
+setlocal
+
+rem Присваиваем параметры
+set a=%1
+set b=%2
+set c=%3
+
+rem Выводим результаты выражений
+echo a - b = %a% - %b% = %eval%
+set /a result1=%a%-%b%
+echo a - b = %result1%
+
+set /a result2=%a%+%b%
+echo a + b = %result2%
+
+set /a result3=%c%/%b%
+echo c / b = %result3%
+
+set /a result4=%c%*%b%
+echo c * b = %result4%
+
+set /a result5=(%a%-%b%)*(%b%-%a%)
+echo (a - b)*(b - a) = %result5%
+
+pause
+
+
+10 батник
+
+@echo off
+setlocal
+
+rem Проверяем, задан ли первый параметр (режим работы)
+if "%1"=="" (
+    echo Usage: bat_05 {create/delete} {filename}
+    goto :eof
+)
+
+rem Проверяем, задан ли второй параметр (имя файла)
+if "%2"=="" (
+    echo Please specify a filename.
+    goto :eof
+)
+
+set MODE=%1
+set FILENAME=%2
+
+if /i "%MODE%"=="create" (
+    if exist "%FILENAME%" (
+        echo File "%FILENAME%" already exists.
+    ) else (
+        echo.>"%FILENAME%"
+        echo File "%FILENAME%" has been created.
+    )
+) else if /i "%MODE%"=="delete" (
+    if exist "%FILENAME%" (
+        del "%FILENAME%"
+        echo File "%FILENAME%" has been deleted.
+    ) else (
+        echo File "%FILENAME%" does not exist.
+    )
+) else (
+    echo Invalid mode. Use "create" or "delete".
+)
+
+pause
+
+
+

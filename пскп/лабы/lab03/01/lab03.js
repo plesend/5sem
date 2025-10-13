@@ -1,5 +1,4 @@
 const http = require("http");
-const readln = require("readline");
 
 let state = "norm";
 
@@ -7,17 +6,7 @@ const serverFunction = function(req, res) {
     if (req.url == "/" && req.method == 'GET') {
         res.setHeader("Content-Type", "text/html; charset=utf-8;");
         res.statusCode = 200;
-        res.end(`<!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Document</title>
-                </head>
-                <body>
-                    <h1>${state}</h1>
-                    </body>
-                </html>`);
+        res.end(`<h1>${state}</h1> `);
     }
     else {
         res.setHeader("Content-Type", "text/html; charset=utf-8;");
@@ -31,29 +20,24 @@ server.listen(5000, function() {
     console.log("Сервер запускается!");
 });
 
-const rl = readln.createInterface({
-    input: process.stdin,
-    output: process.stdout
-})
+process.stdin.setEncoding("utf-8");
+process.stdin.on("readable", () => {
+  let chunk = null;
+  const states = ["norm", "stop", "test", "idle", "exit"];
 
-const HandleInput = () => {
-    rl.question(`${state} --> `, (input) => {
-        input = input.trim().toLowerCase();
+  while ((chunk = process.stdin.read()) != null) {
+    let trimmedInput = chunk.trim();
 
-        if(input === 'exit') {
-            console.log("Exiting the program");
-            rl.close();
-            process.exit();
-        }
-        else if(["norm", "stop", "idle", "test"].includes(input)) {
-            console.log(`reg = ${state}->${input}`);
-            state = input;
-        }
-        else {
-            console.log(`${state}-->${input}. Invalid state`);
-        }
+    if (states.includes(trimmedInput)) {
+      process.stdout.write(`${state} -> ${trimmedInput}\n`);
 
-        HandleInput();
-    });
-}
-HandleInput();
+      if (trimmedInput === "exit") {
+        process.exit(0);
+      } else {
+        state = trimmedInput;
+      }
+    } else {
+      process.stdout.write(`Неверное состояние: ${trimmedInput}\n`);
+    }
+  }
+});

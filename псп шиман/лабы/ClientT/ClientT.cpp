@@ -1,7 +1,10 @@
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
+
 #include "Winsock2.h"
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <chrono>
 
 #pragma comment(lib, "WS2_32.lib")
 
@@ -74,36 +77,87 @@ string SetErrorMsgText(string msgText, int err) {
 };
 
 int main() {
-	WSADATA wsaData;
-	SOCKET sS;
+	SOCKET sC;
+	WSADATA wsadata;
+	int messageAmount;
+	do
+	{
+		cout << "message amount?: ";
+		cin >> messageAmount;
+	} while (messageAmount <= 0);
+
 	try
 	{
-		if (WSAStartup(MAKEWORD(2, 0), &wsaData) != 0)
-			throw SetErrorMsgText("Startup:", WSAGetLastError());
+		if (WSAStartup(MAKEWORD(2, 0), &wsadata) != 0)
+			throw SetErrorMsgText("Startup: ", WSAGetLastError());
 
-		if ((sS = socket(AF_INET, SOCK_STREAM, NULL)) == INVALID_SOCKET)
-			throw SetErrorMsgText("socket:", WSAGetLastError());
+		if ((sC = socket(AF_INET, SOCK_STREAM, NULL)) == INVALID_SOCKET)
+			throw SetErrorMsgText("socket: ", WSAGetLastError());
 
-		cout << "Socket created\n";
+		sockaddr_in servSettings;
+		servSettings.sin_family = AF_INET;
+		servSettings.sin_port = htons(2000);
 
-		SOCKADDR_IN serv;
-		serv.sin_family = AF_INET;
-		serv.sin_port = htons(2000);
-		serv.sin_addr.s_addr = inet_addr("ipadress");
-		if((connect(cC, (sockaddr*)&serv, sizeof(serv))) == SOCKET_ERROR)
-			throw SetErrorMsgText("connect:", WSAGetLastError());
+		servSettings.sin_addr.S_un.S_addr = inet_addr("172.30.57.112");//192.168.100.3 //89
 
-		if (closesocket(sS) == SOCKET_ERROR)
-			throw SetErrorMsgText("closesocket:", WSAGetLastError());
+
+		if ((connect(sC, (sockaddr*)&servSettings, sizeof(servSettings))) == SOCKET_ERROR)
+			throw SetErrorMsgText("connect: ", WSAGetLastError());
+
+		char inputBuffer[50];
+		char outputBuffer[50] = "hello from client\n";
+		string startMessage = "hello from client\n";
+		int lengthInputBuffer = 0;
+		int lengthOutputBuffer = 0;
+
+		auto start = chrono::high_resolution_clock::now();
+		for (int i = 0; i < messageAmount; i++)
+		{
+			string messageWithNumber = startMessage.substr(0, startMessage.size() - 1) + '\n';
+			if ((lengthOutputBuffer = send(sC, messageWithNumber.c_str(), messageWithNumber.size(), NULL)) == SOCKET_ERROR)
+				throw SetErrorMsgText("send: ", WSAGetLastError());
+
+
+			if ((lengthInputBuffer = recv(sC, inputBuffer, sizeof(inputBuffer) - 1, NULL)) == SOCKET_ERROR)
+				throw SetErrorMsgText("recv: ", WSAGetLastError());
+			inputBuffer[lengthInputBuffer] = '\0';
+			cout << "server says: " << inputBuffer << endl;
+
+			string receivedMessage = inputBuffer;
+
+			int pos = receivedMessage.find(':');
+			if (pos == string::npos)
+				cout << "no : found in message" << "\n";
+
+			string numberText = receivedMessage.substr(pos + 1);
+			int number = 0;
+			number = stoi(numberText);
+			number++;
+
+			string messageNoNumber = receivedMessage.substr(0, pos);
+			string messageToServer = messageNoNumber + " :" + to_string(number) + "\n";
+
+			if ((lengthOutputBuffer = send(sC, messageToServer.c_str(), messageToServer.size(), NULL)) == SOCKET_ERROR)
+				throw SetErrorMsgText("send: ", WSAGetLastError());
+
+
+		}
+		if ((lengthOutputBuffer = send(sC, "", 0, NULL)) == SOCKET_ERROR)
+			throw SetErrorMsgText("send: ", WSAGetLastError());
+
+		auto end = chrono::high_resolution_clock::now();
+		auto duration = chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+		cout << "send time: " << duration << " ms\n";
+		//closing
+		if (closesocket(sC) == SOCKET_ERROR)
+			throw SetErrorMsgText("closesocket: ", WSAGetLastError());
 
 		if (WSACleanup() == SOCKET_ERROR)
-			throw SetErrorMsgText("Cleanup:", WSAGetLastError());
-
-		cout << "Socket closed\n";
+			throw SetErrorMsgText("Cleaunp: ", WSAGetLastError());
 	}
-	catch (string errorMsgText)
+	catch (string msg)
 	{
-		cout << endl << errorMsgText;
+		cout << "\n" << msg;
 	}
 	return 0;
 }

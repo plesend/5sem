@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "Header.h"
 #include <iostream>
+#include <future>
 #include <Windows.h>
 #include <cstring>
 #include <thread>
@@ -9,6 +10,7 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
+#define HEADERSIZE 20
 using namespace std;
 
 namespace HT
@@ -80,25 +82,29 @@ namespace HT
         keylength(0),
         payload(nullptr),
         payloadlength(0)
-    {}
+    {
+    }
     Element::Element(const void* key, int keylength) :
         key(key),
         keylength(keylength),
         payload(nullptr),
         payloadlength(0)
-    {}
+    {
+    }
     Element::Element(const void* key, int keylength, const void* payload, int payloadlength) :
         key(key),
         keylength(keylength),
         payload(payload),
         payloadlength(payloadlength)
-    {}
+    {
+    }
     Element::Element(Element* oldelement, const void* newpayload, int newpayloadlength) :
         key(oldelement->key),
         keylength(oldelement->keylength),
         payload(newpayload),
         payloadlength(newpayloadlength)
-    {}
+    {
+    }
 
     HTHANDLE* Create(int Capacity, int SecSnapshotInterval, int MaxKeyLength, int MaxPayloadLength, const char FileName[512], int elementCount)
     {
@@ -107,7 +113,7 @@ namespace HT
 
 
         ht->File = CreateFileA(FileName, GENERIC_READ | GENERIC_WRITE,
-            FILE_SHARE_READ| FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+            FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
         if (ht->File == INVALID_HANDLE_VALUE)
         {
             cout << "Create: file creation failed. " << "\n";
@@ -125,10 +131,10 @@ namespace HT
         }
 
         int elementSize = 1 + ht->MaxKeyLength + ht->MaxPayloadLength;
-        int dwMaxSizeLow = elementSize * ht->Capacity + 20;// не забыть про размер заголовка
+        int dwMaxSizeLow = elementSize * ht->Capacity + HEADERSIZE;
 
         ht->FileMapping = CreateFileMappingA(ht->File, NULL,
-            PAGE_READWRITE, 0, dwMaxSizeLow, NULL);
+            PAGE_READWRITE, 0, dwMaxSizeLow, NULL);//
 
         if (ht->FileMapping == NULL || ht->FileMapping == INVALID_HANDLE_VALUE)
         {
@@ -145,7 +151,7 @@ namespace HT
             delete ht;
             return NULL;
         }
-        ht->DataAddr = (BYTE*)ht->Addr + 20;// здесь тоже б не забыть
+        ht->DataAddr = (BYTE*)ht->Addr + HEADERSIZE;
         return ht;
     }
     HTHANDLE* Open(const char FileName[512])
@@ -172,9 +178,9 @@ namespace HT
         }
 
         int elementSize = 1 + ht->MaxKeyLength + ht->MaxPayloadLength;
-        int dwMaxSizeLow = elementSize * ht->Capacity + 20; // не забыть размер заголовка (20)
+        int dwMaxSizeLow = elementSize * ht->Capacity + HEADERSIZE;
 
-        ht->FileMapping = CreateFileMappingA(ht->File, NULL,
+        ht->FileMapping = CreateFileMappingA(ht->File, NULL, //размпетка байтов файла в памяти
             PAGE_READWRITE, 0, dwMaxSizeLow, NULL);
 
         if (ht->FileMapping == NULL || ht->FileMapping == INVALID_HANDLE_VALUE)
@@ -196,69 +202,75 @@ namespace HT
             return nullptr;
         }
 
-        ht->DataAddr = (BYTE*)ht->Addr + 20; // не забыть размер заголовка(20)
+        ht->DataAddr = (BYTE*)ht->Addr + HEADERSIZE;
         return ht;
     }
+
     BOOL Snap(HTHANDLE* hthandle)
     {
         if (hthandle == NULL)
         {
-            cout << "Snap: hthandle is null\n";
+            std::cout << "SnapAsync: hthandle is null\n";
             return FALSE;
         }
 
-        std::lock_guard<std::mutex> lock(mutex1);
 
-        hthandle->lastsnaptime = time(0);
+        std::async(std::launch::async, [hthandle]() { //асинхронные снепшеты
+            std::lock_guard<std::mutex> lock(mutex1);
 
-        auto now = std::chrono::system_clock::now();
-        std::time_t now_c = std::chrono::system_clock::to_time_t(now);
-        std::tm local_tm;
-        localtime_s(&local_tm, &now_c);
+            hthandle->lastsnaptime = time(0);
 
-        std::ostringstream filenameStream;
-        filenameStream << "snapshotHELP_";
-        filenameStream << std::put_time(&local_tm, "%Y-%m-%d_%H-%M-%S");
-        filenameStream << ".htSNAP";
-        std::string filename = filenameStream.str();
+            auto now = std::chrono::system_clock::now();
+            std::time_t now_c = std::chrono::system_clock::to_time_t(now);
+            std::tm local_tm;
+            localtime_s(&local_tm, &now_c);
 
-        HANDLE snapshot = CreateFileA(
-            filename.c_str(),
-            GENERIC_WRITE,
-            0,
-            NULL,
-            CREATE_ALWAYS,
-            FILE_ATTRIBUTE_NORMAL,
-            NULL);
+            std::ostringstream filenameStream;
+            filenameStream << "snapshot_"
+                << std::put_time(&local_tm, "%Y-%m-%d_%H-%M-%S")
+                << ".htSNAP";
+            std::string filename = filenameStream.str();
 
-        if (snapshot == INVALID_HANDLE_VALUE)
-        {
-            cout << "\nSnap: CreateFileA error, code: " << GetLastError() << "\n";
-            return FALSE;
-        }
+            HANDLE snapshot = CreateFileA(
+                filename.c_str(),
+                GENERIC_WRITE,
+                0,
+                NULL,
+                CREATE_ALWAYS,
+                FILE_ATTRIBUTE_NORMAL,
+                NULL);
 
-        int slotSize = 1 + hthandle->MaxKeyLength + hthandle->MaxPayloadLength;
+            if (snapshot == INVALID_HANDLE_VALUE)
+            {
+                std::cout << "\nSnapAsync: CreateFileA error, code: " << GetLastError() << "\n";
+                return;
+            }
 
-        int totalSize = hthandle->Capacity * slotSize + 5 * sizeof(int);
+            int slotSize = 1 + hthandle->MaxKeyLength + hthandle->MaxPayloadLength;
+            int totalSize = hthandle->Capacity * slotSize + HEADERSIZE;
 
-        DWORD writtenBytesAmount = 0;
-        BOOL writeResult = WriteFile(
-            snapshot,
-            hthandle->Addr,
-            (DWORD)totalSize,
-            &writtenBytesAmount,
-            NULL);
+            DWORD writtenBytesAmount = 0;
+            BOOL writeResult = WriteFile(
+                snapshot,
+                hthandle->Addr,
+                (DWORD)totalSize,
+                &writtenBytesAmount,
+                NULL);
 
-        CloseHandle(snapshot);
+            CloseHandle(snapshot);
 
-        if (!writeResult || writtenBytesAmount != (DWORD)totalSize)
-        {
-            cout << "\nSnap: write ERROR. Written bytes: " << writtenBytesAmount << ", expected: " << totalSize << "\n";
-            return FALSE;
-        }
+            if (!writeResult || writtenBytesAmount != (DWORD)totalSize)
+            {
+                std::cout << "\nSnapAsync: write ERROR. Written bytes: "
+                    << writtenBytesAmount << ", expected: " << totalSize << "\n";
+                return;
+            }
 
-        cout << "\nSnapshot created: " << filename << ", size: " << writtenBytesAmount << " bytes\n";
+            std::cout << "\nSnapshot created: " << filename
+                << " (" << writtenBytesAmount << " bytes)\n";
+            });
 
+        std::cout << "Snapshot started asynchronously...\n";
         return TRUE;
     }
     BOOL Close(HTHANDLE* hthandle)

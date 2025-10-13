@@ -1,6 +1,5 @@
 const http = require('http');
 const url = require("url");
-const { performance } = require('perf_hooks');
 
 const CountFactorial = function(k) {
     if(k < 0 || isNaN(k) ) {
@@ -22,14 +21,7 @@ const server = http.createServer(function(req, res) {
         res.setHeader("Content-Type", "text/html; charset=utf-8");
         res.statusCode = 200;
 
-        res.end(`<!DOCTYPE html>
-            <html lang="ru">
-            <head>
-                <meta charset="UTF-8">
-                <title>Факториалы</title>
-            </head>
-            <body>
-                <h1>Факториалы чисел от 1 до 20</h1>
+        res.end(`<h1>Факториалы чисел от 1 до 20</h1>
                 <div id="results"></div>
 
                 <script>
@@ -53,9 +45,7 @@ const server = http.createServer(function(req, res) {
                     }
 
                     loadFactorials();
-                </script>
-            </body>
-            </html>`)
+                </script>`)
     }
 
     else if (parsedUrl.pathname === "/fact") {

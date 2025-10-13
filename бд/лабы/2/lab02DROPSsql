@@ -1,0 +1,17 @@
+drop tablespace ts_xxx including contents and datafiles;
+
+drop tablespace ts_xxx_temp including contents and datafiles;
+
+DROP ROLE RL_XXXCORE;
+
+drop profile pf_xxxcore cascade;
+
+drop user XXXCORE cascade;
+
+drop table students;
+
+drop view adult_students;
+
+drop tablespace xxx_qdata including contents and datafiles;
+
+drop table t1;

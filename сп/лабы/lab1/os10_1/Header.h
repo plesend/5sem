@@ -51,7 +51,7 @@ namespace HT    // HT API
 		const char    FileName[512]         // ��� ����� 
 	); 	// != NULL �������� ����������  
 
-	BOOL Snap         // ��������� Snapshot
+	BOOL Snap       // ��������� Snapshot
 	(
 	 HTHANDLE* hthandle           // ���������� HT (File, FileMapping)
 	);
