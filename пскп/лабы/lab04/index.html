@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>DB Test</title>
+</head>
+<body>
+    <h2>GET /api/db</h2>
+    <button onclick="getAll()">Получить все</button>
+    <pre id="getResult"></pre>
+
+    <input id="postId" placeholder="id">
+    <input id="postName" placeholder="name">
+    <input id="postBday" placeholder="bday">
+    <button onclick="addItem()">Добавить</button>
+    <pre id="postResult"></pre>
+
+    <h2>PUT /api/db</h2>
+    <input id="putId" placeholder="id">
+    <input id="putName" placeholder="name">
+    <input id="putBday" placeholder="bday">
+    <button onclick="updateItem()">Обновить</button>
+    <pre id="putResult"></pre>
+
+    <h2>DELETE /api/db?id=</h2>
+    <input id="deleteId" placeholder="id">
+    <button onclick="deleteItem()">Удалить</button>
+    <pre id="deleteResult"></pre>
+
+<script>
+async function getAll() {
+    const res = await fetch('/api/db');
+    const data = await res.json();
+    document.getElementById('getResult').innerText = JSON.stringify(data, null, 2);
+}
+
+async function addItem() {
+    const id = parseInt(document.getElementById('postId').value); // берём id из поля
+    const name = document.getElementById('postName').value;
+    const bday = document.getElementById('postBday').value;
+
+    const res = await fetch('/api/db', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({id, name, bday}) // отправляем именно то, что ввела пользователь
+    });
+
+    const data = await res.json();
+    document.getElementById('postResult').innerText = JSON.stringify(data, null, 2);
+}
+
+async function updateItem() {
+    const id = parseInt(document.getElementById('putId').value);
+    const name = document.getElementById('putName').value;
+    const bday = document.getElementById('putBday').value;
+    const body = {id};
+    if(name) body.name = name;
+    if(bday) body.bday = bday;
+
+    const res = await fetch('/api/db', {
+        method: 'PUT',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    document.getElementById('putResult').innerText = JSON.stringify(data, null, 2);
+}
+
+async function deleteItem() {
+    const id = parseInt(document.getElementById('deleteId').value);
+    const res = await fetch(`/api/db?id=${id}`, { method: 'DELETE' });
+    const data = await res.json();
+    document.getElementById('deleteResult').innerText = JSON.stringify(data, null, 2);
+}
+</script>
+</body>
+</html>
