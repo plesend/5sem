@@ -98,7 +98,7 @@ int main() {
 		servSettings.sin_family = AF_INET;
 		servSettings.sin_port = htons(2000);
 
-		servSettings.sin_addr.S_un.S_addr = inet_addr("172.30.57.112");//192.168.100.3 //89
+		servSettings.sin_addr.S_un.S_addr = inet_addr("10.59.243.89");//192.168.100.3 //89
 
 
 		if ((connect(sC, (sockaddr*)&servSettings, sizeof(servSettings))) == SOCKET_ERROR)

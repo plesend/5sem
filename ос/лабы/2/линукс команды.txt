@@ -1,0 +1,88 @@
+#!/bin/bash
+
+IFS=':' read -ra dirs <<< "$PATH"
+
+x_count=0
+nonx_count=0
+
+for dir in "${dirs[@]}"; do
+    if [ -d "$dir" ]; then
+        for file in "$dir"/*; do
+            if [ -f "$file" ]; then
+                if [ -x "$file" ]; then
+                    ((exe_count++))
+                else
+                    ((nonexe_count++))
+                fi
+            fi
+        done
+    fi
+done
+
+echo "Executable: $x_count"
+echo "Non-executable: $nonx_count"
+
+пояснялка:::::
+
+обязательно вначале #!/bin/bash
+
+for dir in "${dirs[@]}"; do 
+# Если директория существует
+    if [ -d "$dir" ]; then
+        for file in "$dir"/*; do
+            # Проверяем, что это файл
+            if [ -f "$file" ]; then
+                # Проверяем, исполняемый ли файл
+                if [ -x "$file" ]; then
+                    ((exe_count++))
+                else
+                    ((nonexe_count++))
+                fi
+            fi
+        done
+    fi
+done
+
+2 bash скрипт жоска
+
+if [ -z "$1" ]; then
+    echo "Usage: $0 <directory>"
+    exit 1
+fi
+
+dir="$1"
+
+if [ ! -d "$dir" ]; then
+    echo "Directory does not exist: $dir"
+    exit 1
+fi
+
+format_size() {
+	local size=$1
+    	local unit="B"
+
+	if [ "$size" -ge 1024 ]; then
+        	size=$(awk "BEGIN {printf \"%.2f\", $size/1024}")
+        	unit="KB"
+    	fi
+    	if (( $(echo "$size >= 1024" | bc -l) )); then
+        	size=$(awk "BEGIN {printf \"%.2f\", $size/1024}")
+        	unit="MB"
+    	fi
+    	if (( $(echo "$size >= 1024" | bc -l) )); then
+        	size=$(awk "BEGIN {printf \"%.2f\", $size/1024}")
+        	unit="GB"
+    	fi
+    	echo "$size $unit"
+}
+
+for entry in "$dir"/*; do
+    if [ -d "$entry" ]; then
+        count=$(find "$entry" -type f | wc -l)
+        echo "Directory: $(basename "$entry") — $count files"
+    elif [ -f "$entry" ]; then
+        size_bytes=$(stat -c %s "$entry")
+        size_formatted=$(format_size "$size_bytes")
+        echo "File: $(basename "$entry") — $size_formatted"
+    fi
+done

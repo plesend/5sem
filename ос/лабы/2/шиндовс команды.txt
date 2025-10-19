@@ -1,0 +1,260 @@
+cd C:/Users/user-748c2f75/os2 & type > students.txt & find "Ivanov" students.txt & echo Shilov 4>>students.txt & echo Smelov 5>>students.txt & sort students.txt & cd .. & systeminfo > tmp.txt & find "BIOS Version" tmp.txt & del tmp.txt
+
+6 батник
+
+@echo off
+echo Имя пользователя: %USERNAME%
+echo Имя компьютера: %COMPUTERNAME%
+echo Текущая дата: %DATE%
+echo Текущее время: %TIME%
+pause
+
+7 батник
+
+@echo off
+setlocal
+
+echo File name: %~nx0
+echo Full path: %~f0
+echo Last modified: %~t0
+
+pause
+
+
+8 батник
+
+@echo off
+echo All parameters: %*
+echo 1st parameter: %1
+echo 2nd parameter: %2
+echo 3rd parameter: %3
+echo 4th parameter: %4
+pause
+
+9 батник
+
+@echo off
+setlocal
+
+rem Присваиваем параметры
+set a=%1
+set b=%2
+set c=%3
+
+rem Выводим результаты выражений
+echo a - b = %a% - %b% = %eval%
+set /a result1=%a%-%b%
+echo a - b = %result1%
+
+set /a result2=%a%+%b%
+echo a + b = %result2%
+
+set /a result3=%c%/%b%
+echo c / b = %result3%
+
+set /a result4=%c%*%b%
+echo c * b = %result4%
+
+set /a result5=(%a%-%b%)*(%b%-%a%)
+echo (a - b)*(b - a) = %result5%
+
+pause
+
+
+10 батник
+
+@echo off
+setlocal
+
+rem Проверяем, задан ли первый параметр (режим работы)
+if "%1"=="" (
+    echo Usage: bat_05 {create/delete} {filename}
+    goto :eof
+)
+
+rem Проверяем, задан ли второй параметр (имя файла)
+if "%2"=="" (
+    echo Please specify a filename.
+    goto :eof
+)
+
+set MODE=%1
+set FILENAME=%2
+
+if /i "%MODE%"=="create" (
+    if exist "%FILENAME%" (
+        echo File "%FILENAME%" already exists.
+    ) else (
+        echo.>"%FILENAME%"
+        echo File "%FILENAME%" has been created.
+    )
+) else if /i "%MODE%"=="delete" (
+    if exist "%FILENAME%" (
+        del "%FILENAME%"
+        echo File "%FILENAME%" has been deleted.
+    ) else (
+        echo File "%FILENAME%" does not exist.
+    )
+) else (
+    echo Invalid mode. Use "create" or "delete".
+)
+
+pause
+
+7-8
+
+прописать в пвшл
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+ 
+кодяра:
+
+@echo off
+
+function Select {
+    Write-Host "`nChoose operation"
+    Write-Host "1. Addition (+)"
+    Write-Host "2. Subtraction (-)"
+    Write-Host "3. Multiplication (*)"
+    Write-Host "4. Division (/)"
+    Write-Host "5. Exponentiation (^)"
+    Write-Host "6. Root extraction (nth root)"
+    Write-Host "7. Sin (sin)"
+    Write-Host "8. Cosine (cos)"
+    Write-Host "9. Tangent (tan)"
+    Write-Host "10. Base-10 logarithm (log10)"
+    Write-Host "11. Natural logarithm (ln)"
+    Write-Host "12. Modulo (remainder)"
+    Write-Host "0. Exit"
+}
+
+function Read-Number($prompt) {
+    while ($true) {
+        $input = Read-Host $prompt
+        if ($input -match '^-?\d+(\.\d+)?$') {
+            return [double]$input
+        }
+        else {
+            Write-Host "Введите число!" -ForegroundColor Red
+        }
+    }
+}
+
+while($true) {
+	Show-Menu 
+	$choice = Read-Host "Input your operation"
+
+	switch($choice) {
+		1 {
+			$a = Read-Number "Введите первое число"
+			$b = Read-Number "Введите второе число"
+			Write-Host " = $($a+$b)"
+		}
+		2 {
+            		$a = Read-Number "Введите первое число"
+            		$b = Read-Number "Введите второе число"
+            		Write-Host " = $($a - $b)"
+        	}
+        	3 {
+            		$a = Read-Number "Введите первое число"
+            		$b = Read-Number "Введите второе число"
+            		Write-Host " = $($a * $b)"
+        	}
+        	4 {
+            		$a = Read-Number "Введите делимое"
+            		$b = Read-Number "Введите делитель"
+            		if ($b -eq 0) { Write-Host "Ошибка: деление на ноль!" -ForegroundColor Red }
+            		else { Write-Host " = $($a / $b)" }
+        	}
+        	5 {
+            		$a = Read-Number "Введите основание"
+            		$b = Read-Number "Введите показатель степени"
+            		Write-Host " = $([math]::Pow($a, $b))"
+        	}
+        	6 {
+            		$a = Read-Number "Введите число"
+            		$n = Read-Number "Введите степень корня"
+            		if ($n -eq 0) { Write-Host "Ошибка: степень не может быть 0" -ForegroundColor Red }
+            		else { Write-Host " = $([math]::Pow($a, 1 / $n))" }
+        	}
+        	7 {
+            		$a = Read-Number "Введите угол в радианах"
+            		Write-Host " = $([math]::Sin($a))"
+        	}
+        	8 {
+            		$a = Read-Number "Введите угол в радианах"
+            		Write-Host " = $([math]::Cos($a))"
+        	}
+        	9 {
+            		$a = Read-Number "Введите угол в радианах"
+            		Write-Host " = $([math]::Tan($a))"
+        	}
+        	10 {
+            		$a = Read-Number "Введите число"
+            		if ($a -le 0) { Write-Host "Ошибка: число должно быть > 0" -ForegroundColor Red }
+            		else { Write-Host "Результат: $([math]::Log10($a))" }
+        	}
+        	11 {
+            		$a = Read-Number "Введите число"
+            		if ($a -le 0) { Write-Host "Ошибка: число должно быть > 0" -ForegroundColor Red }
+            		else { Write-Host " = $([math]::Log($a))" }
+        	}
+        	12 {
+            		$a = Read-Number "Введите делимое"
+            		$b = Read-Number "Введите делитель"
+            		if ($b -eq 0) { Write-Host "Ошибка: деление на ноль!" -ForegroundColor Red }
+            		else { Write-Host " = $($a % $b)" }
+        	}
+        	0 {
+            		Write-Host "Exiting ..."
+			break
+		}
+		default {
+    			Write-Host "Invalid choice!" -ForegroundColor Red
+		}
+
+}
+
+
+кельвины цеельсии фарингейты
+
+function ifC($number, $inputStr) {
+    Write-Host "$inputStr = $($number*1.8+32)F = $($number+273.15)K"
+}
+
+function ifF($number, $inputStr) {
+    Write-Host "$inputStr = $(($number-32)*5/9)C = $(($number-32)*5/9+273.15)K"
+}
+
+function ifK($number, $inputStr) {
+    Write-Host "$inputStr = $($number-273.15)C = $(($number-273.15)*9/5+32)F"
+}
+
+while ($true) {
+    $userInput = Read-Host "Введите значение (например 100C, 212F, 300K)"
+
+    if ([string]::IsNullOrEmpty($userInput)) {
+        Write-Host "Вы ничего не ввели!" -ForegroundColor Red
+        continue
+    }
+
+    $letter = $userInput[-1]
+    $letter = [string]$letter
+
+    if ($letter -match '[A-Za-z]') {
+        $number = [double]$userInput.Substring(0, $userInput.Length - 1)
+    } elseif ($letter -match '\d') {
+        $number = [double]$userInput
+        $letter = ''
+    } else {
+        Write-Host "Введите нормальное значение" -ForegroundColor Red
+        continue
+    }
+
+    switch ($letter.ToUpper()) {
+        'C' { ifC $number $userInput }
+        ''  { ifC $number $userInput }
+        'F' { ifF $number $userInput }
+        'K' { ifK $number $userInput }
+        default { Write-Host "Invalid choice!" -ForegroundColor Red }
+    }
+}
