@@ -98,7 +98,7 @@ int main() {
 		servSettings.sin_family = AF_INET;
 		servSettings.sin_port = htons(2000);
 
-		servSettings.sin_addr.S_un.S_addr = inet_addr("10.59.243.89");//192.168.100.3 //89
+		servSettings.sin_addr.S_un.S_addr = inet_addr("10.142.54.218");//192.168.100.3 //89
 
 
 		if ((connect(sC, (sockaddr*)&servSettings, sizeof(servSettings))) == SOCKET_ERROR)
@@ -122,7 +122,7 @@ int main() {
 				throw SetErrorMsgText("recv: ", WSAGetLastError());
 			inputBuffer[lengthInputBuffer] = '\0';
 			cout << "server says: " << inputBuffer << endl;
-
+			
 			string receivedMessage = inputBuffer;
 
 			int pos = receivedMessage.find(':');
@@ -132,7 +132,7 @@ int main() {
 			string numberText = receivedMessage.substr(pos + 1);
 			int number = 0;
 			number = stoi(numberText);
-			number++;
+			
 
 			string messageNoNumber = receivedMessage.substr(0, pos);
 			string messageToServer = messageNoNumber + " :" + to_string(number) + "\n";
@@ -140,7 +140,7 @@ int main() {
 			if ((lengthOutputBuffer = send(sC, messageToServer.c_str(), messageToServer.size(), NULL)) == SOCKET_ERROR)
 				throw SetErrorMsgText("send: ", WSAGetLastError());
 
-
+			number++;
 		}
 		if ((lengthOutputBuffer = send(sC, "", 0, NULL)) == SOCKET_ERROR)
 			throw SetErrorMsgText("send: ", WSAGetLastError());

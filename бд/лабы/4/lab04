@@ -1,0 +1,155 @@
+--1
+select tablespace_name from dba_tablespaces;
+
+--2
+create tablespace FIO_QDATA
+datafile 'fio_qdata.dbf'
+size 5m
+autoextend on next 5m
+maxsize 10m
+offline;
+
+alter tablespace FIO_QDATA online;
+
+-- eto prosto nado, y menya net connectiona s usera XXX
+create user FIO identified by 1234
+default tablespace FIO_QDATA;
+
+grant create session to FIO;
+grant create table to FIO;
+grant unlimited tablespace to FIO;
+-- bolshe ne nado
+
+alter user FIO quota 2m on FIO_QDATA;
+
+create table FIO_T1 (
+    id number primary key,
+    name nvarchar2(20)
+) tablespace FIO_QDATA;
+
+insert into FIO_T1 values(1, 'first');
+insert into FIO_T1 values(2, 'second');
+insert into FIO_T1 values(3, 'third');
+
+commit;
+
+select * from FIO_T1;
+
+-- 3
+--FIO
+select segment_name, segment_type, tablespace_name
+from user_segments
+where tablespace_name = 'FIO_QDATA';
+
+--sys
+--select segment_name, segment_type, tablespace_name
+--from dba_segments
+--where tablespace_name = 'FIO_QDATA'
+
+-- 4
+drop table FIO_T1;
+
+select segment_name, segment_type, tablespace_name
+from user_segments
+where tablespace_name = 'FIO_QDATA';
+
+select *
+from user_recyclebin;
+
+flashback table FIO_T1 to before drop;
+select * from FIO_T1;
+
+--6
+begin
+    for i in 5 .. 10005 loop
+        insert into FIO_T1(id, name) values (i, 'num: ' || i);
+    end loop;
+    commit;
+end;
+
+commit;
+
+select * from FIO_T1;
+
+--7
+select count(*) as extent_count,
+       sum(blocks) as total_blocks,
+       sum(bytes) as total_bytes
+from user_extents
+where segment_name = 'FIO_T1';
+
+--8
+--sys
+drop tablespace FIO_QDATA including contents and datafiles;
+
+--9
+--redo log
+select * from v$log;
+
+--10
+--current group
+select *
+from v$log
+where status = 'CURRENT';
+
+--11
+--sys
+ALTER SYSTEM SWITCH LOGFILE;
+
+SELECT SYSDATE AS SWITCH_TIME FROM dual;
+select group#, status from v$log;
+select TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS') from dual; 
+
+--12
+
+alter database add logfile group 5
+(
+    'redo05_1.log',
+    'redo05_2.log',
+    'redo05_3.log'
+) size 30m;
+
+select * from v$logfile where group#=5;
+select * from v$log order by sequence# desc;--scn
+
+--13
+alter database drop logfile group 5;
+
+--14S
+archive log list;
+select * from v$archived_log;
+
+SELECT MAX(SEQUENCE#) AS last_archive
+FROM V$ARCHIVED_LOG;
+
+--17
+alter system archive log current;
+
+select * from v$archived_log order by sequence# desc;
+select * from v$log order by sequence# desc;--redo journal
+
+--19
+show parameter control_files;
+
+--20
+select * from v$datafile;
+select * from v$parameter;
+
+--21
+select * from v$parameter where name = 'spfile';
+
+--22
+create pfile='fio_pfile.ora' from spfile;
+
+--24
+select value from v$parameter where name = 'diagnostic_dest';
+show parameter background_dump_dest;
+
+--26
+drop table FIO_T1 purge;
+drop user FIO cascade;
+drop tablespace FIO_QDATA including contents and datafiles;
+
+
+
+select group#, status from v$log;

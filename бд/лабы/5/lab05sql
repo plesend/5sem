@@ -1,0 +1,110 @@
+--1
+select sum(BYTES) from v$sgainfo where name LIKE '%Size%';
+
+--2
+select component, current_size/1024/1024 AS size_mb
+from v$sga_dynamic_components
+where current_size > 0;
+
+--3
+select component, granule_size/1024/1024 as granule_mb
+from v$sga_dynamic_components
+where granule_size is not null;
+
+--4
+select name, BYTES
+from v$sgainfo where name = 'Free SGA Memory Available';
+
+--5
+select name, value from v$parameter where name like 'sga_max%';
+
+--6
+select 
+    component, 
+    min_size,
+    max_size, 
+    current_size 
+from v$sga_dynamic_components
+where component in ('KEEP buffer cache', 'DEFAULT buffer cache', 'RECYCLE buffer cache');
+
+--7
+create table keep_table ( 
+    id int
+) storage (buffer_pool keep) tablespace users;
+
+insert into keep_table values (2);
+insert into keep_table values (3);
+
+select * from keep_table;
+select segment_name, segment_type, tablespace_name, buffer_pool
+from user_segments where segment_name like 'KEEP%';
+
+drop table keep_table;
+
+--8
+create table def_table (num int) storage (buffer_pool default) tablespace users;
+insert into def_table values (2);
+insert into def_table values (3);
+
+select * from def_table;
+select segment_name, segment_type, tablespace_name, buffer_pool
+from user_segments where segment_name = 'DEF_TABLE';
+
+drop table def_table;
+
+--9
+show parameter log_buffer; --sqlplus
+
+--10
+select * from  v$sgastat where pool = 'large pool';
+
+--11
+select 
+    username, 
+    service_name, 
+    server 
+from v$session where username is not null;
+
+--12
+select count(*) from v$bgprocess;
+select name, description from v$bgprocess where paddr != hextoraw('00') order by name;
+
+--13
+select pname, program from v$process where background is null order by pname;
+
+--14
+select count(*) from v$bgprocess where name like 'DBW%';
+
+--15
+select name, network_name, pdb from v$services;
+
+--16
+select * from v$dispatcher;
+--show parameter dispatcher;
+
+--17
+--services.msc
+--OracleOraDB12Home2TNSListener
+
+-- 18. Продемонстрируйте и поясните содержимое файла LISTENER.ORA.
+-- C:\Newfolder\product\12.2.0\dbhome_1\network\admin
+
+-- 19. Запустите утилиту lsnrctl и поясните ее основные команды.
+-- В CMD пишем lsnrctl и поясняем))))
+--commands:
+    /*
+        1. start - Запускает слушатель баз данных Oracle.
+        2. servacls - Отображает список сервисов и их доступа для подключений через слушателя.
+        3. trace - Включает или отключает функцию трассировки для слушателя.
+        4. show - Отображает текущие настройки слушателя или информацию о подключенных клиентах.
+        5. stop - Останавливает слушатель баз данных Oracle.
+        6. version - Отображает версию слушателя.
+        7. quit или exit - Выходит из lsnrctl.
+        8. status - Отображает текущий статус слушателя.
+        9. reload - Перезагружает конфигурацию слушателя без его остановки.
+        10. services - Отображает список доступных сервисов, которые могут быть запущены через слушателя.
+        11. save_config - Сохраняет текущую конфигурацию слушателя в файл.
+    */
+
+-- 20. Получите список служб инстанса, обслуживаемых процессом LISTENER.
+-- В CMD пишем lsnrctl и пишем services

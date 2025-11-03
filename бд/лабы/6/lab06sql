@@ -1,0 +1,47 @@
+--task1 
+--C:\Newfolder\product\12.2.0\dbhome_1\network\admin
+
+--task2
+--sqlplus system/Kate2006 :)))))
+--show parameter;
+
+--task3
+--sqlplus system/Kate2006@ORCL1
+--select tablespace_name from dba_tablespaces;
+--select role from dba_roles;
+--select username from dba_users;
+
+--task4 
+--win+r regedit -- software i smotretb
+
+--task5
+--katusha_system_orcl1 !!!
+
+create table test_con (id number);
+
+insert into test_con values (1) ;
+insert into test_con values (2) ;
+
+commit;
+
+select * from test_con;
+
+--task8 
+--help timing;
+--TIMING start "super timer";
+--select
+--timing stop "super timer";
+
+--task9
+--describe test_con;
+
+--task10
+select * from dba_segments where owner = 'SYS';
+
+create view segment_ALL_IN as 
+select owner, segment_type, count(*) as segments_count,
+sum(extents) as extents_count, sum(blocks) as blocks_count, sum(bytes)/1024  as memory_count
+from dba_segments
+group by owner, segment_type;
+
+select * from segment_ALL_IN;

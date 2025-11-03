@@ -6,6 +6,54 @@ const url = require('url');
 const db = new DB();
 const port = 5000;
 
+const RegisterEventHandlers = () => {
+    db.on('GET', async (req, res) => {
+        res.end(JSON.stringify(await db.select()));
+    });
+
+    db.on('POST', async (req, res, body) => {
+        try {
+            let newItem = JSON.parse(body);
+            console.log("Post body:", newItem);
+            const inserted = await db.insert(newItem);
+            res.end(JSON.stringify(inserted));
+        } catch (err) {
+            res.statusCode = 500;
+            res.end(JSON.stringify({ error: err.message }));
+        }
+    });
+
+    db.on('PUT', async (req, res, body) => {
+        try {
+            let newItem = JSON.parse(body);
+            let updItem = await db.update(newItem);
+            res.end(JSON.stringify(updItem));
+        } catch (err) {
+            res.statusCode = 400;
+            res.end(JSON.stringify({ error: err.message }));
+        }
+    });
+
+    db.on('DELETE', async (req, res, id) => {
+        try {
+            if (id === null || id === undefined) {
+                res.statusCode = 400;
+                res.setHeader('Content-Type', 'text/html');
+                res.end("<h1>DELETE: id is undefined</h1>");
+                return;
+            }
+            let delItem = await db.delete(id);
+            res.end(JSON.stringify(delItem));
+        } catch (err) {
+            res.statusCode = 400;
+            res.end(JSON.stringify({ error: err.message }));
+        }
+    });
+};
+
+RegisterEventHandlers();
+
+
 const server = http.createServer((req, res) => {
     const parsedUrl = url.parse(req.url, true);
     let body = '';
@@ -13,7 +61,6 @@ const server = http.createServer((req, res) => {
     req.on('data', chunk => body += chunk);
     req.on('end', () => {
 
-        // Отдача HTML-страницы
         if(parsedUrl.pathname === "/") {
             fs.readFile('index.html', (err, data) => {
                 if(err) {
@@ -28,7 +75,6 @@ const server = http.createServer((req, res) => {
             return;
         }
 
-        // Работа с API
         if(parsedUrl.pathname.startsWith("/api/db")) {
             res.setHeader("Content-Type", "application/json");
 

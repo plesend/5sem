@@ -1,27 +1,38 @@
-﻿namespace ResultsAuthenticateLib
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.;
+
+namespace ResultsAuthenticateLib
 {
     public class AuthenticateService
     {
-        private readonly Dictionary<string, (string Password, string Role)> _users;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public AuthenticateService()
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public AuthenticateService(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         {
-            _users = new Dictionary<string, (string, string)>
-            {
-                { "reader1", ("123", "READER") },
-                { "writer1", ("123", "WRITER") }
-            };
+            _signInManager = signInManager;
+            _userManager = userManager;
         }
 
-        public (bool Success, string Role) ValidateUser(string login, string password)
+        public async Task<(bool success, string message)> SignInAsync(SignInModel model)
         {
-            if (_users.TryGetValue(login, out var user))
-            {
-                if (user.Password == password)
-                    return (true, user.Role);
-            }
-            return (false, null);
+            var user = await _userManager.FindByNameAsync(model.Login);
+            if (user == null)
+                return (false, "User not found");
+
+            var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+            if (!result.Succeeded)
+                return (false, "Invalid password");
+
+            return (true, "Signed in");
         }
+
+        public async Task SignOutAsync()
+        {
+            await _signInManager.SignOutAsync();
+        }
+
     }
 
     public class SignInModel

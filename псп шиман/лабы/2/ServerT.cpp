@@ -119,7 +119,6 @@ void processClientApp(SOCKET sC)
 				cout << "client says AGAIN: " << singleMessage << endl;
 				answerBuffer.erase(0, endlinePos + 1);
 			}
-
 		}
 
 		memset(inputBuffer, 0, sizeof(inputBuffer));
@@ -161,7 +160,7 @@ int main() {
 			FD_ZERO(&readfds);
 			FD_SET(sS, &readfds);
 
-			timeval timeout; timeout.tv_sec = 60; timeout.tv_usec = 0;
+			timeval timeout; timeout.tv_sec = 600; timeout.tv_usec = 0;
 
 			int selRes = select(0, &readfds, NULL, NULL, &timeout);
 			if (selRes == SOCKET_ERROR)

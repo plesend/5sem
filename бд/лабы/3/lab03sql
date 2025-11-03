@@ -12,16 +12,16 @@ select comp_id, comp_name, version, status from dba_registry;
 --5
 select * from DBA_PDBS;
 
---
+--PDB_USER
 --6
 create tablespace TS1
-datafile 'ts_datafile1.dbf'
+datafile 'ts_datafile3.dbf'
 size 50m
 autoextend on next 10m
 maxsize unlimited;
 
 create temporary tablespace TS1TEMP
-tempfile 'ts_dataTEMPfile1.dbf'
+tempfile 'ts_dataTEMPfile3.dbf'
 size 20m
 autoextend on next 10m
 maxsize unlimited;
@@ -32,6 +32,7 @@ grant create session to RL1;
 grant create table, drop any table to RL1;
 grant create view, drop any view to RL1;
 grant create procedure, drop any procedure to RL1;
+grant select any dictionary to RL1;
 
 create profile PF1 limit
 password_life_time 180
@@ -55,7 +56,7 @@ grant RL1 to U1_FIO_PDB;
 
 grant create session to U1_FIO_PDB;
 
---
+--U1_FIO_PD
 --7
 
 create table FIO_TABLE (
@@ -91,11 +92,15 @@ select * from dba_users;
 select * from dba_role_privs;
 
 --9
-
+--systemtoorcl3
 create user C##FIO identified by 1234 container=ALL;
 grant create session to C##FIO container=ALL;
---
---
+--cdb
+--fio
+
+select 'OK' as connection_status from DUAL;
+
+--sys
 --task 10
 alter pluggable database FIO_PDB1 close immediate;
 drop pluggable database FIO_PDB1 including datafiles;

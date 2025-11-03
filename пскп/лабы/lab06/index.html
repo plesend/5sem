@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Belpost</title>
+</head>
+<body>
+    <h1>Send mail</h1>
+    <form action="/send" method="POST">
+        <label>From: <input type="email" name="from" required></label><br><br>
+        <label>To: <input type="email" name="to" required></label><br><br>
+        <label>Messahe</label><br>
+        <textarea name="message" rows="6" cols="40" required></textarea><br><br>
+        <button type="submit">Send!! </button>
+    </form>
+</body>
+</html>
