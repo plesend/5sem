@@ -1,4 +1,4 @@
-﻿#include "pch.h"  
+#include "pch.h"  
 #include "Header.h"
 #include <iostream>
 #include <future>
@@ -57,7 +57,15 @@ namespace HT
         }
         return true;
     }
-
+    void CleanupHandle(HTHANDLE* ht)
+    {
+        if (!ht) return;
+        if (ht->Addr) UnmapViewOfFile(ht->Addr);
+        if (ht->FileMapping && ht->FileMapping != INVALID_HANDLE_VALUE) CloseHandle(ht->FileMapping);
+        if (ht->File && ht->File != INVALID_HANDLE_VALUE) CloseHandle(ht->File);
+        if (ht->Mutex) CloseHandle(ht->Mutex);
+        delete ht;
+    }
     HTHANDLE::HTHANDLE() :
         Capacity(0), SecSnapshotInterval(0), MaxKeyLength(0), MaxPayloadLength(0),
         File(NULL), FileMapping(NULL), Addr(NULL), lastsnaptime(0), elementCount(0),
@@ -234,14 +242,6 @@ namespace HT
         return TRUE;
     }
 
-    void CleanupHandle(HTHANDLE* ht)
-    {
-        if (!ht) return;
-        if (ht->Addr) UnmapViewOfFile(ht->Addr);
-        if (ht->FileMapping && ht->FileMapping != INVALID_HANDLE_VALUE) CloseHandle(ht->FileMapping);
-        if (ht->File && ht->File != INVALID_HANDLE_VALUE) CloseHandle(ht->File);
-        if (ht->Mutex) CloseHandle(ht->Mutex);
-        delete ht;
-    }
+
 
 }

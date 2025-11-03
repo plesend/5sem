@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <Windows.h>
 #include <future>
 #include <string>
@@ -42,6 +42,7 @@ namespace HT
         const void* payload;
         int payloadlength;
     };
+    extern "C" HTAPI void CleanupHandle(HTHANDLE* ht);
 
     extern "C" HTAPI HTHANDLE* Create(int Capacity, int SecSnapshotInterval, int MaxKeyLength, int MaxPayloadLength, const char FileName[512], int elementCount);
     extern "C" HTAPI HTHANDLE* Open(const char FileName[512]);
@@ -53,5 +54,4 @@ namespace HT
     extern "C" HTAPI BOOL Update(HTHANDLE* hthandle, const Element* oldelement, const void* newpayload, int newpayloadlength);
     extern "C" HTAPI void print(const Element* element);
 
-    void CleanupHandle(HTHANDLE* ht);
 }
