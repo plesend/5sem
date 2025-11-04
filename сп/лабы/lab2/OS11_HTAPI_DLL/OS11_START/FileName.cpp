@@ -1,4 +1,4 @@
-#pragma comment(lib, "D:\\лабораторные работы\\сп\\лабы\\lab02\\OS11_HTAPI_DLL\\x64\\Debug\\OS11_HTAPI_DLL.lib")
+#pragma comment(lib, "D:\\лабораторные работы\\сп\\лабы\\lab2\\OS11_HTAPI_DLL\\x64\\Debug\\OS11_HTAPI_DLL.lib")
 
 #include "Header.h"
 #include <iostream>
@@ -12,7 +12,7 @@ using namespace HT;
 
 int main(int argc, char* argv[])
 {
-    if (argc != 2) {
+    if (argc < 2) {
         cout << "Usage: OS11_START <filename>\n";
         return 1;
     }
@@ -20,14 +20,14 @@ int main(int argc, char* argv[])
     const char* filename = argv[1];
 
     HTHANDLE* ht = Open(filename);
-    if (!ht) {
-        cerr << "HT-Storage not found. Creating new...\n";
-        ht = Create(1000, 10, 64, 1024, filename, 0); 
-        if (!ht) {
-            cerr << "Failed to create HT-storage.\n";
-            return 1;
-        }
-    }
+    
+    cout << "h->File: " << ht->File << endl;
+    cout << "h->FileMapping: " << ht->FileMapping << endl;
+    cout << "h->Addr: " << (void*)ht->Addr << endl;
+    cout << "h->DataAddr: " << (void*)ht->DataAddr << endl;
+    cout << "h->Mutex: " << ht->Mutex << endl;
+    cout << "Capacity: " << ht->Capacity << " MaxKeyLength: " << ht->MaxKeyLength
+        << " MaxPayloadLength: " << ht->MaxPayloadLength << endl;
 
     cout << "HT-Storage Start filename=" << filename
         << ", snapshotinterval=" << ht->SecSnapshotInterval

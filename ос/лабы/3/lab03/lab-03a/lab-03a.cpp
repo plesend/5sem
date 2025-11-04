@@ -15,13 +15,11 @@ int main() {
 
     const char* path = "D:\\лабораторные работы\\ос\\лабы\\3\\lab03\\Release\\lab03.exe";
 
-    // 1. намеренная ошибка
     string firstprm = string(path) + " 10";
     cout << "1 param with iteration in it\n";
     processess[0] = CreateProcessA(firstprm.c_str(), NULL, NULL, NULL,
         FALSE, 0, NULL, NULL, &si[0], &pi[0]);
 
-    // 2. корректно через cmdLine
     string secondprm = string(path) + " 10";
     char cmdLine[256];
     strcpy_s(cmdLine, secondprm.c_str());
@@ -29,14 +27,12 @@ int main() {
     processess[1] = CreateProcessA(NULL, cmdLine, NULL, NULL,
         FALSE, 0, NULL, NULL, &si[1], &pi[1]);
 
-    // 3. корректно: path + аргумент отдельно
     char cmdLine3[64];
     strcpy_s(cmdLine3, " 10");
     cout << "1 n 2 parms\n";
     processess[2] = CreateProcessA(path, cmdLine3, NULL, NULL,
         FALSE, 0, NULL, NULL, &si[2], &pi[2]);
 
-    // вывод информации
     for (int i = 0; i < 3; ++i) {
         if (processess[i])
             cout << "Process n." << i + 1 << " created with PID: " << pi[i].dwProcessId << "\n";
@@ -44,7 +40,6 @@ int main() {
             cout << "Error creating process n." << i + 1 << ", Error Code: " << GetLastError() << "\n";
     }
 
-    // закрываем дескрипторы (без ожидания)
     for (int i = 0; i < 3; ++i) {
         if (processess[i]) {
             CloseHandle(pi[i].hThread);
@@ -53,5 +48,6 @@ int main() {
     }
 
     cout << "All processes started (main not waiting)\n";
+    system("pause");
     return 0;
 }

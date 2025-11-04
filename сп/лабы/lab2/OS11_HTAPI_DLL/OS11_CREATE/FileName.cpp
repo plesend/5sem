@@ -1,5 +1,4 @@
-
-#pragma comment(lib, "D:\\лабораторные работы\\сп\\лабы\\lab02\\OS11_HTAPI_DLL\\x64\\Debug\\OS11_HTAPI_DLL.lib")
+#pragma comment(lib, "D:\\лабораторные работы\\сп\\лабы\\lab2\\OS11_HTAPI_DLL\\x64\\Debug\\OS11_HTAPI_DLL.lib")
 
 #include "Header.h"
 #include <iostream>
@@ -21,11 +20,19 @@ int main(int argc, char* argv[])
     int maxKeyLength = stoi(argv[4]);
     int maxDataLength = stoi(argv[5]);
 
-    HTHANDLE* ht = HT::Create(capacity, snapshotInterval, maxKeyLength, maxDataLength, filename, 0);
-    if (!ht) {
+    HTHANDLE* h = HT::Create(capacity, snapshotInterval, maxKeyLength, maxDataLength, filename, 0);
+    if (!h) {
         cout << "Failed to create HT-storage.\n";
         return 1;
     }
+
+    cout << "h->File: " << h->File << endl;
+    cout << "h->FileMapping: " << h->FileMapping << endl;
+    cout << "h->Addr: " << (void*)h->Addr << endl;
+    cout << "h->DataAddr: " << (void*)h->DataAddr << endl;
+    cout << "h->Mutex: " << h->Mutex << endl;
+    cout << "Capacity: " << h->Capacity << " MaxKeyLength: " << h->MaxKeyLength
+        << " MaxPayloadLength: " << h->MaxPayloadLength << endl;
 
     cout << "HT-Storage Created "
         << "filename=" << filename
@@ -35,6 +42,6 @@ int main(int argc, char* argv[])
         << ", maxdatalength=" << maxDataLength
         << "\n";
 
-    HT::CleanupHandle(ht);
+    HT::CleanupHandle(h);
     return 0;
 }

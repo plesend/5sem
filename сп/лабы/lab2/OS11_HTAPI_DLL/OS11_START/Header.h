@@ -43,7 +43,7 @@ namespace HT
         int payloadlength;
     };
     extern "C" HTAPI void CleanupHandle(HTHANDLE* ht);
-
+    extern "C" HTAPI unsigned int HashFunction(const void* key, int keylength);
     extern "C" HTAPI HTHANDLE* Create(int Capacity, int SecSnapshotInterval, int MaxKeyLength, int MaxPayloadLength, const char FileName[512], int elementCount);
     extern "C" HTAPI HTHANDLE* Open(const char FileName[512]);
     extern "C" HTAPI BOOL Snap(HTHANDLE* hthandle);
