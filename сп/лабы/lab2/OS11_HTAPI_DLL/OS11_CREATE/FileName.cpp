@@ -20,6 +20,11 @@ int main(int argc, char* argv[])
     int maxKeyLength = stoi(argv[4]);
     int maxDataLength = stoi(argv[5]);
 
+    if (capacity <= 0 || snapshotInterval <= 0 || maxKeyLength <= 0 || maxDataLength <= 0) {
+        cout << "STOP IT GET SOME HELP 4 GB OF MEMORY RAAAH";
+        return 0;
+    }
+
     HTHANDLE* h = HT::Create(capacity, snapshotInterval, maxKeyLength, maxDataLength, filename, 0);
     if (!h) {
         cout << "Failed to create HT-storage.\n";
