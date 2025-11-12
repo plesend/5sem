@@ -26,16 +26,24 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    // --- создаём shutdown event ---
     unsigned int hash = HT::HashFunction(filename, (int)strlen(filename));
     char evnamebuf[64];
     sprintf_s(evnamebuf, sizeof(evnamebuf), "Global\\HT_shutdown_%08X", hash);
 
-    HANDLE hShutdownEvent = CreateEventA(NULL, TRUE, FALSE, evnamebuf);
-    if (!hShutdownEvent)
-        cerr << "Warning: CreateEventA failed (" << GetLastError() << "). Continue..." << endl;
-    else
-        cout << "Shutdown event opened: " << evnamebuf << endl;
+    HANDLE hShutdownEvent = nullptr;
+    for (int attempt = 0; attempt < 30; ++attempt) { //30 секунд тут да вот так
+        hShutdownEvent = OpenEventA(SYNCHRONIZE, FALSE, evnamebuf);
+        if (hShutdownEvent) break;
+        cout << "Waiting for OS11_START..." << endl;
+        this_thread::sleep_for(chrono::seconds(5));
+    }
+
+    if (!hShutdownEvent) {
+        cerr << "Error: OS11_START not found. Exiting." << endl;
+        return 1;
+    }
+
+    cout << "Connected to shutdown event: " << evnamebuf << endl;
 
     srand((unsigned)time(NULL));
     ofstream log("OS11_03.log", ios::app);
@@ -48,43 +56,93 @@ int main(int argc, char** argv)
     log << "=== OS11_03 started at " << time(nullptr) << " ===" << endl;
 
     while (true) {
-        // Проверяем сигнал завершения
         if (hShutdownEvent && WaitForSingleObject(hShutdownEvent, 0) == WAIT_OBJECT_0) {
-            cout << "Shutdown signal received. Exiting..." << endl;
-            log << "[EXIT] Shutdown event signaled." << endl;
-            break;
-        }
+            cout << "OS11_START stopped. Waiting for restart..." << endl;
+            log << "[WAIT] OS11_START stopped. Waiting..." << endl;
 
-        int key = rand() % 50; // 50 вариантов ключей
-        Element e(&key, sizeof(key));
+            CloseHandle(hShutdownEvent);
+            hShutdownEvent = nullptr;
 
-        if (!Delete(h, &e)) {
-            cerr << "[NOT FOUND] key=" << key << endl;
-            log << "[NOT FOUND] key=" << key << endl;
-        }
-        else {
-            cout << "[DELETE] key=" << key << endl;
-            log << "[DELETE] key=" << key << endl;
-        }
+            while (true) {
+                this_thread::sleep_for(chrono::seconds(2));
 
-        // Ожидание 1 секунды или выхода
-        if (hShutdownEvent) {
-            DWORD res = WaitForSingleObject(hShutdownEvent, 1000);
-            if (res == WAIT_OBJECT_0) {
-                cout << "Shutdown during wait. Exiting..." << endl;
-                log << "[EXIT] Shutdown during wait." << endl;
-                break;
+                hShutdownEvent = OpenEventA(SYNCHRONIZE, FALSE, evnamebuf);
+                if (hShutdownEvent) {
+                    cout << "OS11_START is back. Resuming work." << endl;
+                    log << "[RESUME] OS11_START restarted." << endl;
+                    break;
+                }
             }
         }
+
+        int key = rand() % 50;
+        Element e(&key, sizeof(key));
+
+        Element* found = Get(h, &e);
+        if (found) {
+            int value = 0;
+            if (found->payloadlength >= (int)sizeof(int))
+                memcpy(&value, found->payload, sizeof(int));
+
+            int newvalue = value + 1;
+            Update(h, found, &newvalue, sizeof(newvalue));
+
+            cout << "[UPDATE] key=" << key << " old=" << value << " new=" << newvalue << endl;
+            log << "[UPDATE] key=" << key << " old=" << value << " new=" << newvalue << endl;
+
+            delete[](BYTE*)found->key;
+            delete[](BYTE*)found->payload;
+            delete found;
+        }
         else {
-            this_thread::sleep_for(chrono::seconds(1));
+            cout << "[MISS] key=" << key << endl;
+            log << "[MISS] key=" << key << endl;
+        }
+
+        DWORD res = WaitForSingleObject(hShutdownEvent, 1000);
+        if (res == WAIT_OBJECT_0) {
+            continue;
         }
     }
+
+
+    //while (true) {
+    //    // Проверяем сигнал завершения
+    //    if (hShutdownEvent && WaitForSingleObject(hShutdownEvent, 0) == WAIT_OBJECT_0) {
+    //        cout << "Shutdown signal received. Exiting..." << endl;
+    //        log << "[EXIT] Shutdown event signaled." << endl;
+    //        break;
+    //    }
+
+    //    int key = rand() % 50; // 50 вариантов ключей
+    //    Element e(&key, sizeof(key));
+
+    //    if (!Delete(h, &e)) {
+    //        cerr << "[NOT FOUND] key=" << key << endl;
+    //        log << "[NOT FOUND] key=" << key << endl;
+    //    }
+    //    else {
+    //        cout << "[DELETE] key=" << key << endl;
+    //        log << "[DELETE] key=" << key << endl;
+    //    }
+
+    //    // Ожидание 1 секунды или выхода
+    //    if (hShutdownEvent) {
+    //        DWORD res = WaitForSingleObject(hShutdownEvent, 1000);
+    //        if (res == WAIT_OBJECT_0) {
+    //            cout << "Shutdown during wait. Exiting..." << endl;
+    //            log << "[EXIT] Shutdown during wait." << endl;
+    //            break;
+    //        }
+    //    }
+    //    else {
+    //        this_thread::sleep_for(chrono::seconds(1));
+    //    }
+    //}
 
     if (hShutdownEvent)
         CloseHandle(hShutdownEvent);
 
-    Snap(h);
     Close(h);
 
     log << "=== OS11_03 finished ===" << endl;

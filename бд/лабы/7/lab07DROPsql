@@ -1,0 +1,15 @@
+drop materialized view MV;
+drop view V1;
+drop table B16;
+drop table A16;
+drop public synonym SB;
+drop synonym SC;
+drop table C;
+drop table B;
+drop table A;
+drop cluster ABC;
+drop table T1;
+drop sequence S1;
+drop sequence S2;
+drop sequence S3;
+drop sequence S4;

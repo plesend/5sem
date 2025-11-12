@@ -6,12 +6,11 @@
 </head>
 <body>
     <h1>Send mail</h1>
-    <form action="/send" method="POST">
-        <label>From: <input type="email" name="from" required></label><br><br>
-        <label>To: <input type="email" name="to" required></label><br><br>
-        <label>Messahe</label><br>
-        <textarea name="message" rows="6" cols="40" required></textarea><br><br>
-        <button type="submit">Send!! </button>
+    <form method="POST" action="/">
+        <input type="email" name="to" placeholder="To" required><br>
+        <input type="text" name="subject" placeholder="Theme" required><br>
+        <textarea name="message" placeholder="Message" required></textarea><br>
+        <button type="submit">Send</button>
     </form>
 </body>
 </html>

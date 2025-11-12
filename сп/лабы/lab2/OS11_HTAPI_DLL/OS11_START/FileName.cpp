@@ -38,6 +38,17 @@ int main(int argc, char* argv[])
 
     cout << "Press any key to stop...\n";
 
+    unsigned int hash = HT::HashFunction(filename, (int)strlen(filename));
+    char evnamebuf[64];
+    sprintf_s(evnamebuf, sizeof(evnamebuf), "Global\\HT_shutdown_%08X", hash);
+
+    // Создаём event, чтобы клиенты могли подключиться
+    HANDLE hShutdownEvent = CreateEventA(NULL, TRUE, FALSE, evnamebuf);
+    if (!hShutdownEvent)
+        cerr << "Failed to create shutdown event." << endl;
+    else
+        cout << "Shutdown event created: " << evnamebuf << endl;
+
     atomic<bool> running(true);
 
     thread snapshotThread([&]() {
@@ -62,6 +73,12 @@ int main(int argc, char* argv[])
     snapshotThread.join();
 
     HT::Snap(ht);
+
+    if (hShutdownEvent) {
+        SetEvent(hShutdownEvent); // ?? Устанавливаем событие
+        cout << "Shutdown event signaled." << endl;
+        CloseHandle(hShutdownEvent);
+    }
 
     HT::CleanupHandle(ht);
 

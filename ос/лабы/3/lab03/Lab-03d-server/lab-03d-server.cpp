@@ -10,19 +10,13 @@ string makeArgs(const string& path, int lower, int upper) {
 }
 
 int main(int argc, char* argv[]) {
-    if (argc != 4) {
-        cout << "Usage: app.exe <num_processes> <lower> <upper>" << endl;
-        return 1;
-    }
+    if (argc != 4) return 1;
 
     int numProcesses = stoi(argv[1]);
     int lower = stoi(argv[2]);
     int upper = stoi(argv[3]);
 
-    if (numProcesses <= 0 || lower > upper || lower < 0) {
-        cerr << "Wrong parameters" << endl;
-        return 1;
-    }
+    if (numProcesses <= 0 || lower > upper || lower < 0) return 1;
 
     int range = upper - lower + 1;
     int chunk = range / numProcesses;
@@ -38,19 +32,43 @@ int main(int argc, char* argv[]) {
 
         string argsStr = makeArgs(path, start, end);
         vector<char> args(argsStr.begin(), argsStr.end());
-        args.push_back('\0'); 
+        args.push_back('\0');
+
+        SECURITY_ATTRIBUTES sa = { sizeof(sa), NULL, TRUE };
+        HANDLE readPipe, writePipe;
+        if (!CreatePipe(&readPipe, &writePipe, &sa, 0)) {
+            cout << "CreatePipe failed\n";
+            return 1;
+        }
+        SetHandleInformation(readPipe, HANDLE_FLAG_INHERIT, 0);
 
         STARTUPINFOA si = { sizeof(si) };
-        PROCESS_INFORMATION pi;
+        si.hStdOutput = writePipe;
+        si.hStdError = writePipe;
+        si.dwFlags |= STARTF_USESTDHANDLES;
 
-        if (!CreateProcessA(NULL, args.data(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) {
+        PROCESS_INFORMATION pi;
+        if (!CreateProcessA(NULL, args.data(), NULL, NULL, TRUE, 0, NULL, NULL, &si, &pi)) {
             cout << "Failed to create process for range " << start << "-" << end
                 << " Error: " << GetLastError() << endl;
+            CloseHandle(readPipe);
+            CloseHandle(writePipe);
         }
         else {
+            Sleep(10000);
+            CloseHandle(writePipe);
+
+            char buffer[256];
+            DWORD bytesRead;
+            cout << "\n=== Output from process " << i << " (" << start << "-" << end << ") ===\n";
+            while (ReadFile(readPipe, buffer, sizeof(buffer) - 1, &bytesRead, NULL) && bytesRead > 0) {
+                buffer[bytesRead] = '\0';
+                cout << buffer;
+            }
+            CloseHandle(readPipe);
+
             processes.push_back(pi);
         }
-
         start = end + 1;
     }
 
@@ -60,6 +78,6 @@ int main(int argc, char* argv[]) {
         CloseHandle(pi.hThread);
     }
 
-    cout << "All child processes finished." << endl;
+    cout << "\nAll child processes finished.\n";
     return 0;
 }

@@ -30,9 +30,20 @@ int main(int argc, char** argv)
     unsigned int hash = HT::HashFunction(filename, (int)strlen(filename));
     char evnamebuf[64];
     sprintf_s(evnamebuf, sizeof(evnamebuf), "Global\\HT_shutdown_%08X", hash);
-    HANDLE hShutdownEvent = CreateEventA(NULL, TRUE, FALSE, evnamebuf);
-    if (!hShutdownEvent)
-        cerr << "Warning: CreateEventA failed (" << GetLastError() << "). Continue..." << endl;
+    HANDLE hShutdownEvent = nullptr;
+    for (int attempt = 0; attempt < 30; ++attempt) { //30 секунд тут да вот так
+        hShutdownEvent = OpenEventA(SYNCHRONIZE, FALSE, evnamebuf);
+        if (hShutdownEvent) break;
+        cout << "Waiting for OS11_START..." << endl;
+        this_thread::sleep_for(chrono::seconds(5));
+    }
+
+    if (!hShutdownEvent) {
+        cerr << "Error: OS11_START not found. Exiting." << endl;
+        return 1;
+    }
+
+    cout << "Connected to shutdown event: " << evnamebuf << endl;
 
     srand((unsigned)time(NULL));
     ofstream log("OS11_04.log", ios::app);
@@ -46,9 +57,22 @@ int main(int argc, char** argv)
 
     while (true) {
         if (hShutdownEvent && WaitForSingleObject(hShutdownEvent, 0) == WAIT_OBJECT_0) {
-            cout << "Shutdown signal received. Exiting..." << endl;
-            log << "[EXIT] Shutdown event signaled." << endl;
-            break;
+            cout << "OS11_START stopped. Waiting for restart..." << endl;
+            log << "[WAIT] OS11_START stopped. Waiting..." << endl;
+
+            CloseHandle(hShutdownEvent);
+            hShutdownEvent = nullptr;
+
+            while (true) {
+                this_thread::sleep_for(chrono::seconds(2));
+
+                hShutdownEvent = OpenEventA(SYNCHRONIZE, FALSE, evnamebuf);
+                if (hShutdownEvent) {
+                    cout << "OS11_START is back. Resuming work." << endl;
+                    log << "[RESUME] OS11_START restarted." << endl;
+                    break;
+                }
+            }
         }
 
         int key = rand() % 50;
@@ -75,22 +99,14 @@ int main(int argc, char** argv)
             log << "[MISS] key=" << key << endl;
         }
 
-        // ждем 1 секунду, но реагируем на shutdown
-        if (hShutdownEvent) {
-            DWORD res = WaitForSingleObject(hShutdownEvent, 1000);
-            if (res == WAIT_OBJECT_0) {
-                cout << "Shutdown during wait. Exiting..." << endl;
-                log << "[EXIT] Shutdown during wait." << endl;
-                break;
-            }
-        }
-        else {
-            this_thread::sleep_for(chrono::seconds(1));
+        DWORD res = WaitForSingleObject(hShutdownEvent, 1000);
+        if (res == WAIT_OBJECT_0) {
+            continue;
         }
     }
 
+      
     if (hShutdownEvent) CloseHandle(hShutdownEvent);
-    Snap(h);
     Close(h);
 
     log << "=== OS11_04 finished ===" << endl;

@@ -1,0 +1,176 @@
+select * from v$pdbs;
+
+alter pluggable database FIO_PDB1 open;
+
+show con_name;
+
+select * from user_tablespaces;
+
+SELECT * FROM DBA_USERS;
+
+--sys_pdb_lab7
+
+create tablespace TS_FIO
+  DATAFILE 'TS_FIO_LAB7_PDB.dbf'
+  size 7M
+  autoextend ON
+  next 5M
+  maxsize 20M;
+  
+create temporary tablespace TS_FIO_TEMP
+  tempfile 'TS_FIO_TEMP_LAB7_PDB.dbf'
+  size 5M
+  autoextend ON
+  next 3M
+  maxsize 30M;
+  
+drop tablespace TS_FIO including contents and datafiles;
+drop tablespace TS_FIO_TEMP including contents and datafiles;
+  
+CREATE PROFILE ZES LIMIT
+  FAILED_LOGIN_ATTEMPTS 7
+  SESSIONS_PER_USER 3
+  PASSWORD_LIFE_TIME 60
+  PASSWORD_REUSE_TIME 365
+  PASSWORD_LOCK_TIME 1
+  CONNECT_TIME 180;
+  
+CREATE USER ZES identified by 1234
+  DEFAULT TABLESPACE TS_FIO
+  TEMPORARY TABLESPACE TS_FIO_TEMP
+  PROFILE PF_FIO
+  ACCOUNT UNLOCK;
+  
+  
+GRANT CREATE SESSION TO ZES;
+GRANT RESTRICTED SESSION TO ZES;
+GRANT CREATE ANY TABLE TO ZES;
+GRANT CREATE ANY VIEW TO ZES;
+GRANT CREATE SEQUENCE TO ZES;
+GRANT UNLIMITED TABLESPACE TO ZES;
+GRANT CREATE CLUSTER TO ZES;
+GRANT CREATE SYNONYM TO ZES;
+GRANT CREATE PUBLIC SYNONYM TO ZES;
+GRANT CREATE MATERIALIZED VIEW TO ZES;
+
+SELECT * FROM DBA_SYS_PRIVS WHERE GRANTEE = 'ZES';
+
+--2
+create sequence S1
+start with 1000
+increment by 10
+nominvalue
+nomaxvalue
+nocycle
+nocache
+noorder;
+
+select S1.NEXTVAL from DUAL;
+select S1.CURRVAL from DUAL;
+
+--3
+create sequence S2 
+start with 10
+increment by 10
+maxvalue 100
+nocycle;
+
+select S2.NEXTVAL from DUAL;
+
+--4-5
+create sequence S3
+start with 10
+increment by -10
+minvalue -100
+maxvalue 100
+nocycle
+order;
+
+select S3.NEXTVAL from DUAL;
+
+--6
+create sequence S4
+start with 1
+increment by 1
+maxvalue 10 --cho
+cycle
+cache 5
+noorder;
+
+select S4.NEXTVAL from DUAL;
+
+DROP SEQUENCE S1;
+DROP SEQUENCE S2;
+DROP SEQUENCE S3;
+DROP SEQUENCE S4;
+--7
+select * from user_sequences;
+
+--8
+create table T1 ( N1 number(20), N2 number(20), N3 number(20), N4 number(20)) cache storage (BUFFER_POOL KEEP) tablespace TS_FIO;
+
+BEGIN
+  FOR i IN 1..7 LOOP
+    INSERT INTO T1 VALUES (S1.NEXTVAL, S2.NEXTVAL, S3.NEXTVAL, S4.NEXTVAL);
+  END LOOP;
+END;
+
+SELECT * FROM T1;
+
+--9
+create cluster ABC (X number (10) , V varchar2(12)) size 200 hashkeys 200;
+
+--10
+create table A (XA number(10), VA varchar2(12), hh number(10)) cluster ABC(XA, VA);
+
+--11
+CREATE TABLE B (
+  XB NUMBER(10),
+  VB VARCHAR2(12),
+  M NUMBER(10)
+) CLUSTER ABC(XB, VB);
+
+insert into B values (1, '1', 1);
+--12
+CREATE TABLE C (
+  XC NUMBER(10),
+  VC VARCHAR2(12),
+  W NUMBER(10)
+) CLUSTER ABC(XC, VC);
+
+insert into C values (1, '1', 1);
+
+--13
+select TABLE_NAME from user_tables;
+select cluster_name from user_clusters;
+
+--14
+create synonym SC for ZES.C;
+select * from C;
+select * from SC;
+
+--15
+create public synonym SB for ZES.B;
+select * from SB;
+select * from B;
+
+--16
+create table A16 (xa number(10) , va number(12), n number(10), constraint pk primary key (xa));
+
+create table B16 (xb number(10) , vb number(12) , k number(10), constraint fk foreign key (xb) references A16(xa));
+
+drop table A16;
+drop table B16;
+
+insert into A16 values (1, '1', 1);
+insert into B16 values (1, '2', 2);
+
+create view V1 as select * from A16 inner join B16 on A16.xa=B16.xb;
+
+select * from V1;
+
+--17
+create materialized view MV refresh force on demand next SYSDATE + 2/1440 as
+select * from B16 inner join A16 on A16.xa=B16.xb;
+
+select * from MV;

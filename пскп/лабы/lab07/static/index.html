@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/files/lab07.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Демонстрация работы сервера 07-01</h1>
+        
+        <section>
+            <h2>1. Изображение (PNG)</h2>
+            <img src="/files/lab07.png" alt="Логотип" class="demo-image"> 
+        </section>
+
+        <section>
+            <h2>2. Видео (MP4)</h2>
+            <video controls width="400">
+                <source src="/files/lab07.mp4" type="video/mp4">
+                Ваш браузер не поддерживает видео тег.
+            </video>
+        </section>
+
+        <section>
+            <h2>3. Документ (DOCX)</h2>
+            <a href="/files/lab07.docx" class="doc-link">Скачать документ</a>
+        </section>
+
+        <section>
+            <h2>4. JSON файл (загружается через Fetch)</h2>
+            <button onclick="loadJSON()">Загрузить JSON</button>
+            <pre id="json-content" class="code-block"></pre>
+        </section>
+
+        <section>
+            <h2>5. XML файл (загружается через Fetch)</h2>
+            <button onclick="loadXML()">Загрузить XML</button>
+            <pre id="xml-content" class="code-block"></pre>
+        </section>
+    </div>
+<script>
+    async function loadJSON() {
+        try {
+            const response = await fetch('/files/lab07.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            document.getElementById('json-content').textContent = JSON.stringify(data, null, 2);
+        } catch (error) {
+            document.getElementById('json-content').textContent = 'Ошибка загрузки JSON: ' + error.message;
+        }
+    }
+
+    async function loadXML() {
+        try {
+            const response = await fetch('/files/lab07.xml'); 
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const xmlText = await response.text();
+            document.getElementById('xml-content').textContent = xmlText;
+        } catch (error) {
+            document.getElementById('xml-content').textContent = 'Ошибка загрузки XML: ' + error.message;
+        }
+    }
+</script>
+</body>
+</html>
