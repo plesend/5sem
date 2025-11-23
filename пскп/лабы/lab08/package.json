@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "fast-xml-parser": "^5.3.2",
+    "formidable": "^3.5.4"
+  }
+}

@@ -30,9 +30,14 @@ function handleStaticFiles(staticDir) {
         const fullPath = path.join(__dirname, staticDir, requestPath);
         const extension = path.extname(requestPath).toLowerCase().substring(1);
 
+        if (!extension) {
+            res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+            return res.end('<h1>Method not supported</h1>');
+        }
+
         if (!MIME_TYPES[extension]) {
-            res.writeHead(405, { 'Content-Type': 'text/html; charset=utf-8' });
-            return res.end('<h1>Not Found: ' + extension + '</h1>');
+            res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+            return res.end('<h1>Extension not supported</h1>');
         }
 
         fs.access(fullPath, fs.constants.F_OK, (err) => {

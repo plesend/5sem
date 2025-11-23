@@ -3,11 +3,12 @@
   "WorkspaceRootPath": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u043F\u0441\u043F \u0448\u0438\u043C\u0430\u043D\\\u043B\u0430\u0431\u044B\\2\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3A055C6C-2E1F-4C99-B4A2-55406E7B0F2B}|..\\ClientT\\ClientT.vcxproj|D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u043F\u0441\u043F \u0448\u0438\u043C\u0430\u043D\\\u043B\u0430\u0431\u044B\\ClientT\\ClientT.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{8939965D-BBC0-42C2-8374-FC9592BBE6E9}|2\\2.vcxproj|D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u043F\u0441\u043F \u0448\u0438\u043C\u0430\u043D\\\u043B\u0430\u0431\u044B\\2\\2\\ClientT.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{8939965D-BBC0-42C2-8374-FC9592BBE6E9}|2\\2.vcxproj|solutionrelative:2\\ClientT.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7A18A61D-F606-4CB6-A950-9DE3948FB5F6}|2.vcxproj|D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u043F\u0441\u043F \u0448\u0438\u043C\u0430\u043D\\\u043B\u0430\u0431\u044B\\2\\ServerT.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{7A18A61D-F606-4CB6-A950-9DE3948FB5F6}|2.vcxproj|solutionrelative:ServerT.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{B332EB3E-C60C-4E4F-B99E-C810B2E9F633}|ServerT\\ServerT.vcxproj|D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u043F\u0441\u043F \u0448\u0438\u043C\u0430\u043D\\\u043B\u0430\u0431\u044B\\2\\ServerT\\ServerT.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B332EB3E-C60C-4E4F-B99E-C810B2E9F633}|ServerT\\ServerT.vcxproj|solutionrelative:ServerT\\ServerT.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -17,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 561,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -25,28 +26,27 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ClientT.cpp",
-              "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u043F\u0441\u043F \u0448\u0438\u043C\u0430\u043D\\\u043B\u0430\u0431\u044B\\ClientT\\ClientT.cpp",
-              "RelativeDocumentMoniker": "..\\ClientT\\ClientT.cpp",
-              "ToolTip": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u043F\u0441\u043F \u0448\u0438\u043C\u0430\u043D\\\u043B\u0430\u0431\u044B\\ClientT\\ClientT.cpp",
-              "RelativeToolTip": "..\\ClientT\\ClientT.cpp",
-              "ViewState": "AgIAAFcAAAAAAAAAAAAAAAgAAAATAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "ServerT.cpp",
+              "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u043F\u0441\u043F \u0448\u0438\u043C\u0430\u043D\\\u043B\u0430\u0431\u044B\\2\\ServerT\\ServerT.cpp",
+              "RelativeDocumentMoniker": "ServerT\\ServerT.cpp",
+              "ToolTip": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u043F\u0441\u043F \u0448\u0438\u043C\u0430\u043D\\\u043B\u0430\u0431\u044B\\2\\ServerT\\ServerT.cpp",
+              "RelativeToolTip": "ServerT\\ServerT.cpp",
+              "ViewState": "AgIAAF0AAAAAAAAAAAAcwD8AAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-09-28T15:47:58.334Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-13T10:51:20.312Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ServerT.cpp",
-              "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u043F\u0441\u043F \u0448\u0438\u043C\u0430\u043D\\\u043B\u0430\u0431\u044B\\2\\ServerT.cpp",
-              "RelativeDocumentMoniker": "ServerT.cpp",
-              "ToolTip": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u043F\u0441\u043F \u0448\u0438\u043C\u0430\u043D\\\u043B\u0430\u0431\u044B\\2\\ServerT.cpp",
-              "RelativeToolTip": "ServerT.cpp",
-              "ViewState": "AgIAAIUAAAAAAAAAAAAEwJAAAAASAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "ClientT.cpp",
+              "DocumentMoniker": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u043F\u0441\u043F \u0448\u0438\u043C\u0430\u043D\\\u043B\u0430\u0431\u044B\\2\\2\\ClientT.cpp",
+              "RelativeDocumentMoniker": "2\\ClientT.cpp",
+              "ToolTip": "D:\\\u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0435 \u0440\u0430\u0431\u043E\u0442\u044B\\\u043F\u0441\u043F \u0448\u0438\u043C\u0430\u043D\\\u043B\u0430\u0431\u044B\\2\\2\\ClientT.cpp",
+              "RelativeToolTip": "2\\ClientT.cpp",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAAAFkAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-09-28T13:03:20.653Z",
+              "WhenOpened": "2025-11-13T10:46:33.378Z",
               "EditorCaption": ""
             }
           ]

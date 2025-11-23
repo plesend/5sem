@@ -16,7 +16,7 @@ DWORD WINAPI Handle(LPVOID lpParm) {
     };
     for (int i = 0; i < n; i++) {
         int index = i % 12;
-        printf("PID: %lu  TID: %lu  process %d - %c\n",
+        printf("PID: %lu  TID: %lu id %d - %c\n",
             GetCurrentProcessId(),
             GetCurrentThreadId(),
             i,

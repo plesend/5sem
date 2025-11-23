@@ -10,7 +10,10 @@ string makeArgs(const string& path, int lower, int upper) {
 }
 
 int main(int argc, char* argv[]) {
-    if (argc != 4) return 1;
+    if (argc < 4) {
+        printf("usage: l3.exe {threadCount} {start} {end}\n");
+        return 1;
+    }
 
     int numProcesses = stoi(argv[1]);
     int lower = stoi(argv[2]);
@@ -26,6 +29,8 @@ int main(int argc, char* argv[]) {
     const string path = "D:\\лабораторные работы\\ос\\лабы\\3\\lab03\\Release\\Lab-03d-client.exe";
 
     int start = lower;
+
+    clock_t begin = clock();
     for (int i = 0; i < numProcesses; ++i) {
         int end = start + chunk - 1;
         if (i == numProcesses - 1) end += remainder;
@@ -55,7 +60,7 @@ int main(int argc, char* argv[]) {
             CloseHandle(writePipe);
         }
         else {
-            Sleep(10000);
+            Sleep(300);
             CloseHandle(writePipe);
 
             char buffer[256];
@@ -71,6 +76,9 @@ int main(int argc, char* argv[]) {
         }
         start = end + 1;
     }
+
+    clock_t end = clock();
+    cout << "\nLoop time: " << (end - begin) << " ms\n";
 
     for (auto& pi : processes) {
         WaitForSingleObject(pi.hProcess, INFINITE);

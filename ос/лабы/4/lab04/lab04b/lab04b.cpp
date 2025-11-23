@@ -16,7 +16,7 @@ DWORD WINAPI Handle(LPVOID lpParm) {
     };
     for (int i = 0; i < n; i++) {
         int index = i % 12;
-        printf("PID: %lu  TID: %lu  process %d - %c\n",
+        printf("PID: %lu  TID: %lu i %d - %c\n",
             GetCurrentProcessId(),
             GetCurrentThreadId(),
             i,
@@ -49,7 +49,7 @@ int main() {
     };
     for (int i = 0; i < parm3; i++) {
         int index = i % 12;
-        printf("PID: %lu  TID: %lu  process %d - %c\n",
+        printf("PID: %lu  TID: %lu i %d - %c\n",
             GetCurrentProcessId(),
             GetCurrentThreadId(),
             i,
@@ -67,6 +67,10 @@ int main() {
         if (i == 40) {
             printf("\nSuspending thread 2 at iteration %d\n", i);
             SuspendThread(threads[1]);
+        }
+        if ((i + 1) >= parm3) {
+            printf("\n Resuming thread 2 at iteration %d\n", i);
+            ResumeThread(threads[1]);
         }
     }
 

@@ -9,7 +9,7 @@ select * from user_tablespaces;
 SELECT * FROM DBA_USERS;
 
 --sys_pdb_lab7
-
+select * from v$tablespace;
 create tablespace TS_FIO
   DATAFILE 'TS_FIO_LAB7_PDB.dbf'
   size 7M
@@ -145,9 +145,9 @@ select TABLE_NAME from user_tables;
 select cluster_name from user_clusters;
 
 --14
-create synonym SC for ZES.C;
+create synonym SC11 for ZES.C;
 select * from C;
-select * from SC;
+select * from SC1;
 
 --15
 create public synonym SB for ZES.B;
@@ -164,6 +164,10 @@ drop table B16;
 
 insert into A16 values (1, '1', 1);
 insert into B16 values (1, '2', 2);
+insert into A16 values (2, '3', 3);
+insert into B16 values (2, '2', 2);
+
+
 
 create view V1 as select * from A16 inner join B16 on A16.xa=B16.xb;
 
@@ -172,5 +176,8 @@ select * from V1;
 --17
 create materialized view MV refresh force on demand next SYSDATE + 2/1440 as
 select * from B16 inner join A16 on A16.xa=B16.xb;
+
+EXEC DBMS_MVIEW.REFRESH('MV');
+
 
 select * from MV;

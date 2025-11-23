@@ -44,4 +44,6 @@ sum(extents) as extents_count, sum(blocks) as blocks_count, sum(bytes)/1024  as 
 from dba_segments
 group by owner, segment_type;
 
+drop view segment_ALL_IN;
+
 select * from segment_ALL_IN;
