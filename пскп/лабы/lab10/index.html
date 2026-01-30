@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>lab10</h1>
+
+    <div id="info" style="font-size: larger;"></div>
+<button id="wsconnect">start ws</button>
+
+<div id="messages"></div>
+
+</body>
+<script>
+    let button = document.getElementById('wsconnect');
+    let messages = document.getElementById('messages');
+    let status = document.getElementById('info');
+    button.addEventListener('click',()=>
+    {
+        let count = 0
+        const ws = new WebSocket('ws://localhost:4000');
+        let intervalObj;
+
+        ws.onopen = () =>
+        {
+        intervalObj = setInterval(()=>
+        {
+            status.textContent = 'sent message number ' + count;
+            let msg = `10-01-client:${count++}`;
+            ws.send(msg);
+            
+        },3000);
+        };
+        setTimeout(() => {
+            clearInterval(intervalObj);
+            status.textContent = 'ws connection aborted';
+            ws.close();
+        }, 25000);
+
+        ws.onmessage = (event) =>
+    {
+        messages.innerHTML += event.data + '<br/>';
+        
+    }
+
+    });
+</script>
+</html>

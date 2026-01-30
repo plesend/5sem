@@ -1,4 +1,3 @@
-// server.js
 const http = require('http');
 const url = require('url');
 const qs = require('querystring');
@@ -28,7 +27,6 @@ const server = http.createServer((req, res) => {
   const pathname = parsedUrl.pathname || '/';
   const query = parsedUrl.query || {};
 
-  // Роут для /files/<имя> обрабатываем отдельно (динамический)
   if (req.method === 'GET' && pathname.startsWith('/files/')) {
     const filename = decodeURIComponent(pathname.slice('/files/'.length));
     const filepath = path.join(staticDirectory, filename);
@@ -151,10 +149,10 @@ const server = http.createServer((req, res) => {
 
       case '/req-data': {
         let body = '';
-        req.on('data', chunk => { console.log("получен текст"); body += chunk; });
+        req.on('data', chunk => { console.log("noJly4eH TekcT"); body += chunk; });
         req.on('end', () => {
           res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
-          res.end(`Данные получены:\n${body}`);
+          res.end(`gAHHbIe_noJly4eHbI:\n${body}`);
         });
         break;
       }
@@ -222,11 +220,9 @@ const server = http.createServer((req, res) => {
       }
 
       case '/upload': {
-        // отдаём простую страницу загрузки (файл upload.html рядом с server.js или можно встроить html)
         const uploadHtmlPath = path.join(__dirname, 'upload.html');
         fs.access(uploadHtmlPath, fs.constants.F_OK, (err) => {
           if (err) {
-            // если файла нет — вернуть встроенную форму
             res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
             res.end(`
               <form method="POST" action="/upload" enctype="multipart/form-data">
@@ -272,7 +268,8 @@ const server = http.createServer((req, res) => {
             }
         }
         res.end();
-      })
+      });
+      return;
     }
 
     if (pathname === '/json') {

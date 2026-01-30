@@ -1,0 +1,111 @@
+pROC для лаб06б
+#include <windows.h>
+#include <stdio.h>
+
+#define MUTEX L"Global\\mutex"
+
+int main()
+{
+	HANDLE mutex = OpenMutexW(MUTEX_ALL_ACCESS, FALSE, MUTEX);
+	if (!mutex) {
+		printf("cant open mutex :(((((((");
+		return 1;
+	}
+
+	const char array[13] = {
+	'u', 's', 'e', 'r', '-',
+	'7', '4', '8', 'c',
+	'2', 'f', '7', '5'
+	};
+
+	for (int i = 0; i <= 90; i++) {
+		int lock = (i >= 30 && i <= 60);
+
+		if (lock) WaitForSingleObject(mutex, INFINITE);
+
+		int index = i % 13;
+		char symb = array[index];
+		printf("B iteration %d char: %c\n", i, symb);
+
+		if (lock) ReleaseMutex(mutex);
+
+		Sleep(100);
+	}
+
+	CloseHandle(mutex);
+	return 0;
+}
+
+
+для лаб06с
+#include <windows.h>
+#include <stdio.h>
+
+#define SEMAPHORE L"Global\\semaphore"
+
+int main()
+{
+	HANDLE sem = OpenSemaphoreW(SEMAPHORE_ALL_ACCESS, FALSE, SEMAPHORE);
+	if (!sem) {
+		printf("cant open mutex :(((((((");
+		return;
+	}
+
+	const char array[13] = {
+	'u', 's', 'e', 'r', '-',
+	'7', '4', '8', 'c',
+	'2', 'f', '7', '5'
+	};
+
+	for (int i = 0; i <= 90; i++) {
+		int lock = (i >= 30 && i <= 60);
+
+		if (lock) WaitForSingleObject(sem, INFINITE);
+
+		int index = i % 13;
+		char symb = array[index];
+		printf("[A] iteration %d char: %c\n", i, symb);
+
+		if (lock) ReleaseSemaphore(sem, 1, NULL);
+
+		Sleep(100);
+	}
+
+	CloseHandle(sem);
+}
+
+lab06d
+
+event
+#include <windows.h>
+#include <stdio.h>
+
+#define EVENT L"Global\\event"
+
+int main()
+{
+	HANDLE evt = OpenEventW(EVENT_ALL_ACCESS, FALSE, EVENT);
+	if (!evt) {
+		printf("cant open event\n");
+		return 1;
+	}
+
+	const char array[13] = {
+	'u', 's', 'e', 'r', '-',
+	'7', '4', '8', 'c',
+	'2', 'f', '7', '5'
+	};
+
+	WaitForSingleObject(evt, INFINITE);
+
+	for (int i = 0; i <= 90; i++) {
+		int index = i % 13;
+		char symb = array[index];
+		printf("[B] iteration %d char: %c\n", i, symb);
+
+		Sleep(100);
+	}
+
+	Sleep(10000);
+}
+

@@ -1,0 +1,178 @@
+alter pluggable database fio_pdb1 open;
+select * from v$pdbs;
+
+---zes_pdb_lab7
+--1
+--1. Добавьте в таблицу TEACHERS два столбца BIRTHDAYи SALARY, заполните их значениями.
+alter table teacher
+add (birthday date, salary number);
+
+update teacher
+set birthday = trunc(sysdate) - floor(dbms_random.value(365*20, 365*30)),
+    salary = floor(dbms_random.value(1200, 3400));
+------
+alter table teacher
+drop column birthday;
+alter table teacher
+drop column salary;
+  
+select * from teacher;
+
+--2 2. Получите список преподавателей в виде Фамилия И.О.
+create or replace function get_fio(teacher_name varchar2)
+    return varchar2
+is
+    fio varchar2(200);
+begin
+    fio := substr(teacher_name, 1, instr(teacher_name, ' ')) ||
+           substr(teacher_name, instr(teacher_name, ' ') + 1, 1) || '.' ||
+           substr(teacher_name, instr(teacher_name, ' ', 1, 2) + 1, 1) || '.';
+    return fio;
+end;
+
+select get_fio(teacher_name), birthday
+from teacher;
+
+--3. Получите список преподавателей, родившихся в понедельник.
+select teacher_name, birthday from teacher where to_char(birthday, 'd') = '2';
+
+--44. Создайте представление, в котором поместите список преподавателей, которые родились в следующем месяце.
+
+create or replace view next_month_bd as 
+select teacher_name, to_char(birthday, 'dd.mm.yyyy') as bday from teacher
+where to_char(birthday, 'mm') = to_char(add_months(sysdate, 1), 'mm');
+
+select * from next_month_bd;
+
+--5. Создайте представление, в котором поместите количество преподавателей, которые родились в каждом месяце.
+drop table months;
+
+create table months
+(
+  month_name   varchar(20),
+  month_number varchar(2)
+);
+
+insert into months (month_name, month_number)
+values ('Январь', '01');
+insert into months (month_name, month_number)
+values ('Февраль', '02');
+insert into months (month_name, month_number)
+values ('Март', '03');
+insert into months (month_name, month_number)
+values ('Апрель', '04');
+insert into months (month_name, month_number)
+values ('Май', '05');
+insert into months (month_name, month_number)
+values ('Июнь', '06');
+insert into months (month_name, month_number)
+values ('Июль', '07');
+insert into months (month_name, month_number)
+values ('Август', '08');
+insert into months (month_name, month_number)
+values ('Сентябрь', '09');
+insert into months (month_name, month_number)
+values ('Октябрь', '10');
+insert into months (month_name, month_number)
+values ('Ноябрь', '11');
+insert into months (month_name, month_number)
+values ('Декабрь', '12');
+
+create or replace view teacher_count_by_month as
+select month_name, (select count(*) from teacher where to_char(birthday, 'mm') = m.month_number) as count
+from months m;
+
+select * from teacher_count_by_month;
+
+
+--6. Создать курсор и вывести список преподавателей, у которых в следующем году юбилей.
+declare cursor curs is
+ select teacher_name, birthday from teacher 
+ where mod(to_number(to_char(add_months(sysdate, 12), 'yyyy')) - to_number(to_char(birthday, 'yyyy')), 5) = 0;
+begin
+    for i in curs loop
+        dbms_output.put_line(i.teacher_name || ' ' || to_char(i.birthday, 'dd.mm.yyyy'));
+    end loop;
+end;
+
+
+--7. Создать курсор и вывести среднюю заработную плату по кафедрам 
+--с округлением вниз до целых, 
+--вывести средние итоговые значения для каждого факультета и для всех факультетов в целом.
+select * from teacher;
+select * from faculty;
+
+declare
+  cursor c_average_salary is
+    select p.faculty, avg(t.salary) as average_salary
+    from teacher t
+    inner join pulpit p on t.pulpit = p.pulpit
+    group by p.faculty;
+
+  v_faculty char(20);
+  v_average_salary number;
+  v_count_faculty number;
+  v_total_average_salary number := 0;
+  v_average_salary_all_faculty number;
+begin
+  open c_average_salary;
+  
+  dbms_output.put_line('average salary by faculty:');
+  dbms_output.put_line('====');
+  
+  loop
+    fetch c_average_salary into v_faculty, v_average_salary;
+    exit when c_average_salary%notfound;
+    
+    select count(*) into v_count_faculty from faculty;
+    v_total_average_salary := v_total_average_salary + v_average_salary;
+    v_average_salary_all_faculty := v_total_average_salary / v_count_faculty;
+    
+    dbms_output.put_line('faculty: ' || v_faculty || ' average salary: ' || floor(v_average_salary));
+  end loop;
+  
+  dbms_output.put_line('====');
+  dbms_output.put_line('total: ' || floor(v_total_average_salary));
+  dbms_output.put_line('total average salary: ' || floor(v_average_salary_all_faculty));
+  
+  close c_average_salary;
+end;
+
+--8
+--8. Создайте собственный тип PL/SQL-записи (record) и продемонстрируйте работу с ним.
+--Продемонстрируйте работу с вложенными записями. 
+--Продемонстрируйте и объясните операцию присвоения. 
+declare
+type task8 is record(
+    fullname teacher.teacher_name%type,
+    birthday teacher.birthday%type,
+    salary teacher.salary%type,
+    coolNumber number);
+    
+    type task8Out is record(
+    innerfield task8,
+    coolChar varchar2(50));
+    
+    var1 task8;
+    var2 task8;
+    var3 task8Out;
+    begin
+    
+    var1.fullname:= 'fullname var1';
+    var1.birthday := sysdate;
+    var1.salary := 4242;
+    var1.coolNumber := 4.2;
+    
+    dbms_output.put_line('var1: ' || var1.fullname || ' ' || var1.salary || ' ' || var1.coolNumber);
+    var2 := var1;
+    dbms_output.put_line('var2: ' || var2.fullname || ' ' || var2.salary || ' ' || var2.coolNumber);
+    
+    var3.innerfield := var2;
+    var3.coolChar := '13:56';
+    dbms_output.put_line('var3 salary: ' || var3.innerfield.salary );
+    end;
+    /
+
+select * from teacher;
+
+desc teacher;

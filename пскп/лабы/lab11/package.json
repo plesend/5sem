@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "async": "^3.2.6",
+    "rpc-websockets": "^9.3.2",
+    "ws": "^8.18.3"
+  }
+}

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Node.js API Test</title>
+</head>
+<body>
+    <h1>Node.js API Test</h1>
+    <pre id="getResult"></pre>
+
+    <h2>Faculties</h2>
+    <button onclick="getFaculties()">GET /api/faculties</button><br><br>
+
+    <input id="newFacultyCode" placeholder="FACULTY">
+    <input id="newFacultyName" placeholder="FACULTY_NAME">
+    <button onclick="addFaculty()">POST /api/faculties</button><br><br>
+
+    <input id="updateFacultyCode" placeholder="FACULTY">
+    <input id="updateFacultyName" placeholder="New FACULTY_NAME">
+    <button onclick="updateFaculty()">PUT /api/faculties</button><br><br>
+
+    <input id="deleteFacultyCode" placeholder="FACULTY">
+    <button onclick="deleteFaculty()">DELETE /api/faculties/xyz</button>
+
+    <h2>Pulpits</h2>
+    <button onclick="getPulpits()">GET /api/pulpits</button><br><br>
+
+    <input id="newPulpitCode" placeholder="PULPIT">
+    <input id="newPulpitName" placeholder="PULPIT_NAME">
+    <input id="newPulpitFaculty" placeholder="FACULTY">
+    <button onclick="addPulpit()">POST /api/pulpits</button><br><br>
+
+    <input id="updatePulpitCode" placeholder="PULPIT">
+    <input id="updatePulpitName" placeholder="New PULPIT_NAME">
+    <input id="updatePulpitFaculty" placeholder="FACULTY">
+    <button onclick="updatePulpit()">PUT /api/pulpits</button><br><br>
+
+    <input id="deletePulpitCode" placeholder="PULPIT">
+    <button onclick="deletePulpit()">DELETE /api/pulpits/xyz</button>
+
+    <h2>Subjects</h2>
+    <button onclick="getSubjects()">GET /api/subjects</button><br><br>
+
+    <input id="newSubjectCode" placeholder="SUBJECT">
+    <input id="newSubjectName" placeholder="SUBJECT_NAME">
+    <input id="newSubjectPulpit" placeholder="PULPIT">
+    <button onclick="addSubject()">POST /api/subjects</button><br><br>
+
+    <input id="updateSubjectCode" placeholder="SUBJECT">
+    <input id="updateSubjectName" placeholder="New SUBJECT_NAME">
+    <input id="updateSubjectPulpit" placeholder="PULPIT">
+    <button onclick="updateSubject()">PUT /api/subjects</button><br><br>
+
+    <input id="deleteSubjectCode" placeholder="SUBJECT">
+    <button onclick="deleteSubject()">DELETE /api/subjects/xyz</button>
+
+    <h2>Auditorium Types</h2>
+    <button onclick="getAuditoriumTypes()">GET /api/auditoriumstypes</button><br><br>
+
+    <input id="newAudTypeCode" placeholder="AUDITORIUM_TYPE">
+    <input id="newAudTypeName" placeholder="AUDITORIUM_TYPENAME">
+    <button onclick="addAuditoriumType()">POST /api/auditoriumstypes</button><br><br>
+
+    <input id="updateAudTypeCode" placeholder="AUDITORIUM_TYPE">
+    <input id="updateAudTypeName" placeholder="New AUDITORIUM_TYPENAME">
+    <button onclick="updateAuditoriumType()">PUT /api/auditoriumstypes</button><br><br>
+
+    <input id="deleteAudTypeCode" placeholder="AUDITORIUM_TYPE">
+    <button onclick="deleteAuditoriumType()">DELETE /api/auditoriumstypes/xyz</button>
+
+    <h2>Auditoriums</h2>
+    <button onclick="getAuditoriums()">GET /api/auditoriums</button><br><br>
+
+    <input id="newAudCode" placeholder="AUDITORIUM">
+    <input id="newAudName" placeholder="AUDITORIUM_NAME">
+    <input id="newAudCapacity" placeholder="AUDITORIUM_CAPACITY">
+    <input id="newAudType" placeholder="AUDITORIUM_TYPE">
+    <button onclick="addAuditorium()">POST /api/auditoriums</button><br><br>
+
+    <input id="updateAudCode" placeholder="AUDITORIUM">
+    <input id="updateAudName" placeholder="New AUDITORIUM_NAME">
+    <input id="updateAudCapacity" placeholder="AUDITORIUM_CAPACITY">
+    <input id="updateAudType" placeholder="AUDITORIUM_TYPE">
+    <button onclick="updateAuditorium()">PUT /api/auditoriums</button><br><br>
+
+    <input id="deleteAudCode" placeholder="AUDITORIUM">
+    <button onclick="deleteAuditorium()">DELETE /api/auditoriums/xyz</button>
+
+    <script>
+        function getFaculties() {
+            fetch('/api/faculties')
+                .then(res => res.json())
+                .then(data => document.getElementById('getResult').textContent = JSON.stringify(data, null, 4))
+                .catch(err => document.getElementById('getResult').textContent = err);
+        }
+        function addFaculty() {
+            const FACULTY = document.getElementById('newFacultyCode').value;
+            const FACULTY_NAME = document.getElementById('newFacultyName').value;
+            fetch('/api/faculties', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({FACULTY,FACULTY_NAME})})
+                .then(res => res.json())
+                .then(data => document.getElementById('getResult').textContent = JSON.stringify(data,null,4))
+                .catch(err => document.getElementById('getResult').textContent = err);
+        }
+        function updateFaculty() {
+            const FACULTY = document.getElementById('updateFacultyCode').value;
+            const FACULTY_NAME = document.getElementById('updateFacultyName').value;
+            fetch('/api/faculties', { method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({FACULTY,FACULTY_NAME})})
+                .then(res => res.json()).then(data=>document.getElementById('getResult').textContent=JSON.stringify(data,null,4))
+                .catch(err=>document.getElementById('getResult').textContent=err);
+        }
+        function deleteFaculty() {
+            const FACULTY = document.getElementById('deleteFacultyCode').value;
+            fetch('/api/faculties/'+encodeURIComponent(FACULTY),{method:'DELETE'})
+                .then(res=>res.json()).then(data=>document.getElementById('getResult').textContent=JSON.stringify(data,null,4))
+                .catch(err=>document.getElementById('getResult').textContent=err);
+        }
+
+        function getPulpits() {
+            fetch('/api/pulpits').then(res=>res.json()).then(data=>document.getElementById('getResult').textContent=JSON.stringify(data,null,4)).catch(err=>document.getElementById('getResult').textContent=err);
+        }
+        function addPulpit() {
+            const PULPIT = document.getElementById('newPulpitCode').value;
+            const PULPIT_NAME = document.getElementById('newPulpitName').value;
+            const FACULTY = document.getElementById('newPulpitFaculty').value;
+            fetch('/api/pulpits',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({PULPIT,PULPIT_NAME,FACULTY})})
+            .then(res=>res.json()).then(data=>document.getElementById('getResult').textContent=JSON.stringify(data,null,4)).catch(err=>document.getElementById('getResult').textContent=err);
+        }
+        function updatePulpit() {
+            const PULPIT = document.getElementById('updatePulpitCode').value;
+            const PULPIT_NAME = document.getElementById('updatePulpitName').value;
+            const FACULTY = document.getElementById('updatePulpitFaculty').value;
+            fetch('/api/pulpits',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({PULPIT,PULPIT_NAME,FACULTY})})
+            .then(res=>res.json()).then(data=>document.getElementById('getResult').textContent=JSON.stringify(data,null,4)).catch(err=>document.getElementById('getResult').textContent=err);
+        }
+        function deletePulpit() {
+            const PULPIT = document.getElementById('deletePulpitCode').value;
+            fetch('/api/pulpits/'+encodeURIComponent(PULPIT),{method:'DELETE'}).then(res=>res.json()).then(data=>document.getElementById('getResult').textContent=JSON.stringify(data,null,4)).catch(err=>document.getElementById('getResult').textContent=err);
+        }
+
+        function getSubjects(){fetch('/api/subjects').then(res=>res.json()).then(data=>document.getElementById('getResult').textContent=JSON.stringify(data,null,4)).catch(err=>document.getElementById('getResult').textContent=err);}
+        function addSubject(){const SUBJECT=document.getElementById('newSubjectCode').value; const SUBJECT_NAME=document.getElementById('newSubjectName').value; const PULPIT=document.getElementById('newSubjectPulpit').value; fetch('/api/subjects',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({SUBJECT,SUBJECT_NAME,PULPIT})}).then(res=>res.json()).then(data=>document.getElementById('getResult').textContent=JSON.stringify(data,null,4)).catch(err=>document.getElementById('getResult').textContent=err);}
+        function updateSubject(){const SUBJECT=document.getElementById('updateSubjectCode').value; const SUBJECT_NAME=document.getElementById('updateSubjectName').value; const PULPIT=document.getElementById('updateSubjectPulpit').value; fetch('/api/subjects',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({SUBJECT,SUBJECT_NAME,PULPIT})}).then(res=>res.json()).then(data=>document.getElementById('getResult').textContent=JSON.stringify(data,null,4)).catch(err=>document.getElementById('getResult').textContent=err);}
+        function deleteSubject(){const SUBJECT=document.getElementById('deleteSubjectCode').value; fetch('/api/subjects/'+encodeURIComponent(SUBJECT),{method:'DELETE'}).then(res=>res.json()).then(data=>document.getElementById('getResult').textContent=JSON.stringify(data,null,4)).catch(err=>document.getElementById('getResult').textContent=err);}
+
+        function getAuditoriumTypes(){fetch('/api/auditoriumstypes').then(res=>res.json()).then(data=>document.getElementById('getResult').textContent=JSON.stringify(data,null,4)).catch(err=>document.getElementById('getResult').textContent=err);}
+        function addAuditoriumType(){const AUDITORIUM_TYPE=document.getElementById('newAudTypeCode').value; const AUDITORIUM_TYPENAME=document.getElementById('newAudTypeName').value; fetch('/api/auditoriumstypes',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({AUDITORIUM_TYPE,AUDITORIUM_TYPENAME})}).then(res=>res.json()).then(data=>document.getElementById('getResult').textContent=JSON.stringify(data,null,4)).catch(err=>document.getElementById('getResult').textContent=err);}
+        function updateAuditoriumType(){const AUDITORIUM_TYPE=document.getElementById('updateAudTypeCode').value; const AUDITORIUM_TYPENAME=document.getElementById('updateAudTypeName').value; fetch('/api/auditoriumstypes',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({AUDITORIUM_TYPE,AUDITORIUM_TYPENAME})}).then(res=>res.json()).then(data=>document.getElementById('getResult').textContent=JSON.stringify(data,null,4)).catch(err=>document.getElementById('getResult').textContent=err);}
+        function deleteAuditoriumType(){const AUDITORIUM_TYPE=document.getElementById('deleteAudTypeCode').value; fetch('/api/auditoriumstypes/'+encodeURIComponent(AUDITORIUM_TYPE),{method:'DELETE'}).then(res=>res.json()).then(data=>document.getElementById('getResult').textContent=JSON.stringify(data,null,4)).catch(err=>document.getElementById('getResult').textContent=err);}
+
+        function getAuditoriums(){fetch('/api/auditoriums').then(res=>res.json()).then(data=>document.getElementById('getResult').textContent=JSON.stringify(data,null,4)).catch(err=>document.getElementById('getResult').textContent=err);}
+        function addAuditorium(){const AUDITORIUM=document.getElementById('newAudCode').value; const AUDITORIUM_NAME=document.getElementById('newAudName').value; const AUDITORIUM_CAPACITY=parseInt(document.getElementById('newAudCapacity').value); const AUDITORIUM_TYPE=document.getElementById('newAudType').value; fetch('/api/auditoriums',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({AUDITORIUM,AUDITORIUM_NAME,AUDITORIUM_CAPACITY,AUDITORIUM_TYPE})}).then(res=>res.json()).then(data=>document.getElementById('getResult').textContent=JSON.stringify(data,null,4)).catch(err=>document.getElementById('getResult').textContent=err);}
+        function updateAuditorium(){const AUDITORIUM=document.getElementById('updateAudCode').value; const AUDITORIUM_NAME=document.getElementById('updateAudName').value; const AUDITORIUM_CAPACITY=parseInt(document.getElementById('updateAudCapacity').value); const AUDITORIUM_TYPE=document.getElementById('updateAudType').value; fetch('/api/auditoriums',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({AUDITORIUM,AUDITORIUM_NAME,AUDITORIUM_CAPACITY,AUDITORIUM_TYPE})}).then(res=>res.json()).then(data=>document.getElementById('getResult').textContent=JSON.stringify(data,null,4)).catch(err=>document.getElementById('getResult').textContent=err);}
+        function deleteAuditorium(){const AUDITORIUM=document.getElementById('deleteAudCode').value; fetch('/api/auditoriums/'+encodeURIComponent(AUDITORIUM),{method:'DELETE'}).then(res=>res.json()).then(data=>document.getElementById('getResult').textContent=JSON.stringify(data,null,4)).catch(err=>document.getElementById('getResult').textContent=err);}
+    </script>
+</body>
+</html>

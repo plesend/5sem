@@ -1,0 +1,107 @@
+alter pluggable database FIO_PDB1 open;
+
+--1
+select name, open_mode, restricted, con_id from v$pdbs;
+
+--2
+select instance_name, host_name, status, version from v$instance;
+
+--3
+select comp_id, comp_name, version, status from dba_registry;
+
+--5
+select * from DBA_PDBS;
+
+--PDB_USER
+--6
+create tablespace TS1
+datafile 'ts_datafile3.dbf'
+size 50m
+autoextend on next 10m
+maxsize unlimited;
+
+create temporary tablespace TS1TEMP
+tempfile 'ts_dataTEMPfile3.dbf'
+size 20m
+autoextend on next 10m
+maxsize unlimited;
+
+create role RL1;
+
+grant create session to RL1;
+grant create table, drop any table to RL1;
+grant create view, drop any view to RL1;
+grant create procedure, drop any procedure to RL1;
+grant select any dictionary to RL1;
+
+create profile PF1 limit
+password_life_time 180
+sessions_per_user 3
+failed_login_attempts 7
+password_lock_time 1
+password_reuse_time 10
+password_grace_time default
+connect_time 180
+idle_time 30;
+
+create user U1_FIO_PDB
+identified by "1234"
+default tablespace TS1
+temporary tablespace TS1TEMP
+profile PF1
+account unlock
+quota unlimited on TS1;
+
+grant RL1 to U1_FIO_PDB;
+
+grant create session to U1_FIO_PDB;
+
+--U1_FIO_PD
+--7
+
+create table FIO_TABLE (
+    id number(1),
+    name varchar2(50),
+    color varchar2(30)
+)
+tablespace TS1;
+
+drop table FIO_TABLE;
+
+insert into FIO_TABLE (id, name, color) values (1, 'Барсик', 'рыжий');
+insert into FIO_TABLE (id, name, color) values (2, 'Мурка', 'серая');
+insert into FIO_TABLE (id, name, color) values (3, 'Снежок', 'белый');
+insert into FIO_TABLE (id, name, color) values (4, 'Черныш', 'чёрный');
+
+commit;
+
+--8
+select * from dba_tablespaces;
+
+select * from dba_data_files;
+select * from dba_temp_files;
+
+select * from dba_roles;
+
+select * from role_sys_privs;
+select * from role_tab_privs;
+
+select * from dba_profiles;
+
+select * from dba_users;
+select * from dba_role_privs;
+
+--9
+--systemtoorcl3
+create user C##FIO identified by 1234 container=ALL;
+grant create session to C##FIO container=ALL;
+--cdb
+--fio
+
+select 'OK' as connection_status from DUAL;
+
+--sys
+--task 10
+alter pluggable database FIO_PDB1 close immediate;
+drop pluggable database FIO_PDB1 including datafiles;
+

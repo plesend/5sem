@@ -1,0 +1,232 @@
+alter pluggable database FIO_PDB1 open;
+--zes pdb lab7 1234
+--1
+select * from auditorium where auditorium_capacity = 90;
+
+--2 non correct sample
+declare 
+     v_type auditorium_type.auditorium_type%type;
+begin 
+    select auditorium_type 
+    into v_type
+    from auditorium_type 
+    where auditorium_type like 'Л%';
+    dbms_output.put_line('Result: ' || v_type);
+exception
+    when others then
+        dbms_output.put_line('skill issue: ' || sqlcode || ' ' || sqlerrm);
+end;
+        
+--3 too many rows       
+declare 
+     v_type auditorium_type.auditorium_type%type;
+begin 
+    select auditorium_type 
+    into v_type
+    from auditorium_type 
+    where auditorium_type like 'Л%';
+    dbms_output.put_line('Result: ' || v_type);
+exception
+    when too_many_rows then
+        dbms_output.put_line('oI_I_IuBKa: ' || sqlcode || ' ' || sqlerrm);
+    when others then
+        dbms_output.put_line('oI_I_IuBKa: ' || sqlcode || ' ' || sqlerrm);
+end;
+
+
+--4 cursor n 
+DECLARE 
+     v_type auditorium_type.auditorium_type%TYPE;
+BEGIN 
+    SELECT auditorium_type 
+    INTO v_type
+    FROM auditorium_type 
+    WHERE auditorium_type = 'lol';  -- гарантированно нет строки
+
+    DBMS_OUTPUT.PUT_LINE('Result: ' || v_type);
+
+EXCEPTION
+    WHEN no_data_found THEN
+        DBMS_OUTPUT.PUT_LINE('oI_I_IuBKa: ' || SQLCODE || ' ' || SQLERRM);
+END;
+/
+
+
+DECLARE
+    v_count NUMBER;
+BEGIN
+    UPDATE auditorium_type
+    SET auditorium_typename = auditorium_typename
+    WHERE auditorium_type LIKE 'Л%';
+
+    DBMS_OUTPUT.PUT_LINE('SQL%ROWCOUNT = ' || SQL%ROWCOUNT);
+    DBMS_OUTPUT.PUT_LINE('SQL%FOUND = ' || CASE WHEN SQL%FOUND THEN 'TRUE' ELSE 'FALSE' END);
+    DBMS_OUTPUT.PUT_LINE('SQL%NOTFOUND = ' || CASE WHEN SQL%NOTFOUND THEN 'TRUE' ELSE 'FALSE' END);
+    DBMS_OUTPUT.PUT_LINE('SQL%ISOPEN = ' || CASE WHEN SQL%ISOPEN THEN 'TRUE' ELSE 'FALSE' END);
+END;
+/
+
+--5 commit rollback updat!!
+
+begin
+    update auditorium set auditorium_name = auditorium_name || '_testing' where auditorium_capacity = 90;
+    commit;
+    DBMS_OUTPUT.PUT_LINE('cOMMIT');
+    
+    --rollback;
+    --DBMS_OUTPUT.PUT_LINE('rollback');
+exception 
+    when others then DBMS_OUTPUT.PUT_LINE('Ошибка: ' || SQLCODE || ' ' || SQLERRM);
+    rollback;
+end;
+/
+
+select auditorium_name from auditorium;
+
+--ubratb
+BEGIN
+    UPDATE auditorium
+    SET auditorium_name = REPLACE(auditorium_name, '_testing', '')
+    WHERE auditorium_name LIKE '%_testing%';
+
+    COMMIT;
+    DBMS_OUTPUT.PUT_LINE('COMMIT выполнен: "_testing" удалено');
+
+    --rollback;
+    --DBMS_OUTPUT.PUT_LINE('ROLLBACK');
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Ошибка: ' || SQLCODE || ' ' || SQLERRM);
+        ROLLBACK;
+END;
+/
+
+--6
+begin 
+    update auditorium
+    set auditorium_type = 'lol'
+    where auditorium = '105-4';
+    commit;
+    DBMS_OUTPUT.PUT_LINE('UPDATE hurray');
+exception 
+    when others then 
+        DBMS_OUTPUT.PUT_LINE('Ошибка целостности: ' || SQLCODE || ' ' || SQLERRM);
+        rollback;
+end;
+/
+
+--7 8 два раза подряд повторить вот и нарушение целостности
+
+select * from auditorium;
+begin 
+    insert into auditorium (auditorium, auditorium_name, auditorium_capacity, auditorium_type)
+    values ('42', '42', 50, 'ЛК');
+    commit;
+    dbms_output.put_line('insert');
+exception
+    when others then
+        dbms_output.put_line('ошибка целостности: ' || sqlcode || ' ' || sqlerrm);
+        rollback;
+end;
+
+delete from auditorium
+    where auditorium = '42';
+commit;
+
+--9
+begin
+    delete from auditorium
+    where auditorium = '42';
+
+    dbms_output.put_line('delete выполнен');
+
+    commit;
+    dbms_output.put_line('commit выполнен veeeeы');
+
+exception
+    when others then
+        dbms_output.put_line('ошибка: ' || sqlcode || ' ' || sqlerrm);
+        rollback;
+end;
+/
+
+--10
+begin
+    delete from auditorium_type
+    where auditorium_type = 'ЛБ-К';
+
+    commit;
+    dbms_output.put_line('delete выполнен');
+exception
+    when others then
+        dbms_output.put_line('ошибка целостности: ' || sqlcode || ' ' || sqlerrm);
+        rollback;
+        dbms_output.put_line('rollback выполнен');
+end;
+/
+
+--Явные курсоры
+--11
+
+declare
+    cursor teacher_cursor is
+        select teacher, teacher_name, pulpit
+        from teacher;
+
+    v_teacher     teacher.teacher%type;
+    v_teacher_name teacher.teacher_name%type;
+    v_pulpit      teacher.pulpit%type;
+begin
+    open teacher_cursor;
+
+    loop
+        fetch teacher_cursor into v_teacher, v_teacher_name, v_pulpit;
+        exit when teacher_cursor%notfound;  -- выход при окончании строк
+
+        dbms_output.put_line('teacher: ' || v_teacher || ', teacher_name: ' || v_teacher_name || ', pulpit: ' || v_pulpit);
+    end loop;
+
+    close teacher_cursor;
+end;
+/
+--12
+declare
+    cursor subject_cursor is
+        select subject, subject_name, pulpit
+        from subject;
+
+    v_subject_rec subject%rowtype;
+    loop_counter number := 0;
+begin
+    open subject_cursor;
+    fetch subject_cursor into v_subject_rec;
+
+    while subject_cursor%found loop
+        loop_counter := loop_counter + 1;
+        dbms_output.put_line('subject: ' || v_subject_rec.subject 
+                             || ', subject_name: ' || v_subject_rec.subject_name 
+                             || ', pulpit: ' || v_subject_rec.pulpit);
+        fetch subject_cursor into v_subject_rec;
+    end loop;
+
+    close subject_cursor;
+    dbms_output.put_line('Всего записей обработано: ' || loop_counter);
+end;
+/
+
+--13
+declare
+    cursor pulpit_teacher_cursor is
+        select p.pulpit, p.pulpit_name, t.teacher_name
+        from pulpit p
+        join teacher t on p.pulpit = t.pulpit;
+begin
+    for rec in pulpit_teacher_cursor loop
+        dbms_output.put_line('pulpit: ' || rec.pulpit 
+                             || ', pulpit_name: ' || rec.pulpit_name 
+                             || ', teacher_name: ' || rec.teacher_name);
+    end loop;
+end;
+/
+
+--14

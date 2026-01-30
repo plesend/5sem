@@ -1,0 +1,233 @@
+lab07a
+#include <stdio.h>
+#include <time.h>
+
+int main()
+{
+    time_t t = time(NULL);
+
+    struct tm local, utc;
+
+    localtime_r(&t, &local);
+    gmtime_r(&t, &utc);
+
+    int tzHours =
+        (local.tm_hour - utc.tm_hour);
+
+    // поправка на смену суток
+    if (local.tm_yday > utc.tm_yday) tzHours += 24;
+    if (local.tm_yday < utc.tm_yday) tzHours -= 24;
+
+    printf("%04d-%02d-%02dT%02d:%02d:%02d%+03d\n",
+        local.tm_year + 1900,
+        local.tm_mon + 1,
+        local.tm_mday,
+        local.tm_hour,
+        local.tm_min,
+        local.tm_sec,
+        tzHours
+    );
+
+    return 0;
+}
+
+=======================
+
+lab07b
+#define _POSIX_C_SOURCE 199309L
+#include <stdio.h>
+#include <time.h>
+
+static inline long long ms_diff(struct timespec a, struct timespec b)
+{
+    return (b.tv_sec - a.tv_sec) * 1000LL +
+        (b.tv_nsec - a.tv_nsec) / 1000000LL;
+}
+
+int main()
+{
+    struct timespec cpuStart, cpuNow;
+    struct timespec realStart, realEnd;
+
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &cpuStart);
+    clock_gettime(CLOCK_MONOTONIC, &realStart);
+
+    unsigned long long it = 0;
+    int five = 0, ten = 0;
+
+    for (;;)
+    {
+        it++;
+
+        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &cpuNow);
+        long long cpuElapsed = ms_diff(cpuStart, cpuNow);
+
+        if (cpuElapsed >= 5000 && !five)
+        {
+            printf("5 seconds: iterations = %llu\n", it);
+            five = 1;
+        }
+
+        if (cpuElapsed >= 10000 && !ten)
+        {
+            printf("10 seconds: iterations = %llu\n", it);
+            ten = 1;
+        }
+
+        if (cpuElapsed >= 15000)
+            break;
+    }
+
+    clock_gettime(CLOCK_MONOTONIC, &realEnd);
+
+    long long realElapsed = ms_diff(realStart, realEnd);
+
+    printf("THE END: iterations = %llu\n", it);
+    printf("Real time: %lld мс\n", realElapsed);
+
+    return 0;
+}
+
+=======================
+
+lab07c
+
+#define _POSIX_C_SOURCE 199309L
+#include <stdio.h>
+#include <signal.h>
+#include <time.h>
+#include <string.h>
+
+int main(void)
+{
+    timer_t timer;
+    struct sigevent sev;
+    struct itimerspec its;
+
+    unsigned long long it = 0;
+    int secondsPassed = 0;
+
+    sigset_t mask;
+    sigemptyset(&mask);
+    sigaddset(&mask, SIGRTMIN);
+    sigprocmask(SIG_BLOCK, &mask, NULL);
+
+    memset(&sev, 0, sizeof(sev));
+    sev.sigev_notify = SIGEV_SIGNAL;
+    sev.sigev_signo = SIGRTMIN;
+
+    timer_create(CLOCK_MONOTONIC, &sev, &timer);
+
+    its.it_value.tv_sec = 3;
+    its.it_value.tv_nsec = 0;
+    its.it_interval.tv_sec = 3;
+    its.it_interval.tv_nsec = 0;
+
+    timer_settime(timer, 0, &its, NULL);
+
+    for (;;)
+    {
+        it++;
+
+        struct timespec ts = { 0, 0 };
+        int sig = sigtimedwait(&mask, NULL, &ts);
+
+        if (sig == SIGRTMIN)
+        {
+            secondsPassed += 3;
+            printf("%d seconds: iterations = %llu\n", secondsPassed, it);
+
+            if (secondsPassed >= 15)
+                break;
+        }
+    }
+
+    timer_delete(timer);
+    return 0;
+}
+
+
+==========================
+lab07x
+#define _POSIX_C_SOURCE 199309L
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int isPrime(unsigned long long n)
+{
+    if (n < 2)
+        return 0;
+
+    for (unsigned long long i = 2; i * i <= n; i++)
+        if (n % i == 0)
+            return 0;
+
+    return 1;
+}
+
+unsigned long long funzione()
+{
+    struct timespec ts;
+    clock_gettime(CLOCK_MONOTONIC, &ts);
+    return ts.tv_sec * 1000ULL + ts.tv_nsec / 1000000ULL;
+}
+
+int main(int argc, char* argv[])
+{
+    int seconds = (argc < 2) ? 10 : atoi(argv[1]);
+    if (seconds <= 0) seconds = 10;
+
+    unsigned long long startTime = funzione();
+    unsigned long long endTime;
+
+    unsigned long long number = 2;
+    unsigned long long count = 0;
+
+    for (;;)
+    {
+        if (isPrime(number))
+        {
+            count++;
+            printf("%llu: %llu\n", count, number);
+        }
+        number++;
+
+        if (funzione() - startTime >= (unsigned long long)seconds * 1000)
+            break;
+    }
+
+    endTime = funzione();
+    printf("\ntime: %llu ms\n", endTime - startTime);
+
+    return 0;
+}
+
+
+============================
+lab07d
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
+int main()
+{
+    if (!fork()) {
+        execl("/path/to/lab07x", "lab07x", "60", NULL);
+        return 1;
+    }
+
+    if (!fork()) {
+        execl("/path/to/lab07x", "lab07x", "120", NULL);
+        return 1;
+    }
+
+    printf("started both processes\n");
+
+    wait(NULL);
+    wait(NULL);
+
+    printf("processes finished\n");
+
+    return 0;
+}

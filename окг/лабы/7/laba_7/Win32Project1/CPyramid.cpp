@@ -123,7 +123,7 @@ void CPyramid::Draw1(CDC& dc, CMatrix& viewport, CRect& rectWindow)	// нари�
 	}
 	else
 	{
-		CBrush brushTop(RGB(0, 255, 0));	// задаем в перо зеленого цвета для основания
+		CBrush brushTop(RGB(230, 153, 255));	
 		dc.SelectObject(brushTop);
 		dc.Polygon(vertices + 3, 3);
 	}
